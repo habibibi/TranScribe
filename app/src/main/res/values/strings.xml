@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TranScribe</string>
+    <string name="transaction_menu_title">Transaksi</string>
+    <string name="scan_menu_title">Scan</string>
+    <string name="chart_menu_title">Chart</string>
+    <string name="setting_menu_title">Pengaturan</string>
 </resources>
