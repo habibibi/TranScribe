@@ -40,4 +40,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:subtitleTextColor="#FFFFFF" />
 
+    <!--  Add layout  -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity"
+        android:background="@color/white">
+
+        <ListView
+            android:id="@+id/superListView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

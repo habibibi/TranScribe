@@ -1,4 +1,5 @@
 package com.ikp.transcribe.model
 
-class LoginResponse {
-}
+data class LoginResponse(
+    val token: String
+)
