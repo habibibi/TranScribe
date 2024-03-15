@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/navigation_transaction"
-        android:name="com.ikp.transcribe.transaction.TransactionFragment"
+        android:name="com.ikp.transcribe.ui.transaction.TransactionFragment"
         android:label="@string/transaction_menu_title"
         tools:layout="@layout/fragment_transaction" />
     <fragment
         android:id="@+id/navigation_scan"
-        android:name="com.ikp.transcribe.scan.ScanFragment"
+        android:name="com.ikp.transcribe.ui.scan.ScanFragment"
         android:label="@string/scan_menu_title"
         tools:layout="@layout/fragment_scan" />
     <fragment
         android:id="@+id/navigation_chart"
-        android:name="com.ikp.transcribe.chart.ChartFragment"
+        android:name="com.ikp.transcribe.ui.chart.ChartFragment"
         android:label="@string/chart_menu_title"
         tools:layout="@layout/fragment_chart" />
     <fragment
         android:id="@+id/navigation_setting"
-        android:name="com.ikp.transcribe.setting.SettingFragment"
+        android:name="com.ikp.transcribe.ui.setting.SettingFragment"
         android:label="@string/setting_menu_title"
         tools:layout="@layout/fragment_setting" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.ikp.transcribe.setting
+package com.ikp.transcribe.ui.setting
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
