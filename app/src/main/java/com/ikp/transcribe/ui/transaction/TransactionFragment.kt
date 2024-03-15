@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ikp.transcribe.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -36,6 +40,15 @@ class TransactionFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_transaction, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val rv : RecyclerView = view.findViewById(R.id.rv)
+        rv.layoutManager = LinearLayoutManager(activity)
+        rv.adapter = TransactionListAdapter(IntRange(0,100).toList())
+        val divider =  DividerItemDecoration(rv.context, LinearLayout.VERTICAL)
+        rv.addItemDecoration(divider)
     }
 
     companion object {
