@@ -6,10 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ikp.transcribe.R
+import com.ikp.transcribe.data.AppDatabase
+import com.ikp.transcribe.databinding.FragmentTransactionBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,7 +29,8 @@ class TransactionFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-
+    private var _binding: FragmentTransactionBinding? = null
+    private val binding get() = _binding!!
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -37,18 +42,50 @@ class TransactionFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_transaction, container, false)
+        _binding = FragmentTransactionBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val rv : RecyclerView = view.findViewById(R.id.rv)
+        val rv : RecyclerView = binding.rv
         rv.layoutManager = LinearLayoutManager(activity)
-        rv.adapter = TransactionListAdapter(IntRange(0,100).toList())
+
         val divider =  DividerItemDecoration(rv.context, LinearLayout.VERTICAL)
         rv.addItemDecoration(divider)
+
+        val adapter = TransactionListAdapter()
+        rv.adapter = adapter
+        lifecycleScope.launch(Dispatchers.IO){
+            val dao = AppDatabase.getInstance(requireContext()).TransactionDao()
+            val flow = dao.getFlowTransaction("test@gmail.com")
+            flow.collect(){list -> adapter.submitList(list)}
+        }
+
+        binding.addButton.setOnClickListener {
+            // TODO: add navigation to Add Transaction Activity
+            lifecycleScope.launch(Dispatchers.IO) {
+                val dao = AppDatabase.getInstance(requireContext()).TransactionDao()
+                dao.insertData("test@gmail.com", "ayam", "Pembelian",10000,"bandung")
+            }
+        }
+        // TODO: remove if testing not needed
+        binding.deleteAllButton.setOnClickListener {
+            lifecycleScope.launch(Dispatchers.IO) {
+                val dao = AppDatabase.getInstance(requireContext()).TransactionDao()
+                val list = dao.getTransaction("test@gmail.com")
+                for (t in list){
+                    dao.deleteData(t.id!!)
+                }
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
