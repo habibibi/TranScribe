@@ -1,11 +1,21 @@
 package com.ikp.transcribe.ui.setting
 
+import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import com.ikp.transcribe.R
+import org.apache.poi.hssf.usermodel.HSSFWorkbook
+import java.io.File
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,7 +45,95 @@ class SettingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_setting, container, false)
+        val view = inflater.inflate(R.layout.fragment_setting, container, false)
+
+        val simpantombol = view.findViewById<Button>(R.id.simpandaftartransaksi)
+        val kirimtombol = view.findViewById<Button>(R.id.kirimdaftartransaksi)
+        val keluar = view.findViewById<Button>(R.id.keluar)
+
+        simpantombol.setOnClickListener {
+            if(context?.let { ActivityCompat.checkSelfPermission(it,android.Manifest.permission.WRITE_EXTERNAL_STORAGE) } != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(context as Activity, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),101)
+            }
+            else {
+                createFolder()
+                var dialog = AlertDialog.Builder(context)
+                dialog.setTitle("Pilih tipe data")
+                dialog.setItems(R.array.tipe, DialogInterface.OnClickListener { dialog, which ->
+                    if (which == 0) {
+//                    Todo simpan time xlsx
+                        println("simpan xlsx")
+                    } else if (which == 1) {
+//                    Todo simpan time xlsx
+                        println("simpan xls")
+                    } else {
+                        dialog.dismiss()
+                    }
+
+                })
+                val dialogtampil = dialog.create()
+                dialogtampil.show()
+            }
+        }
+
+        kirimtombol.setOnClickListener {
+            var dialog = AlertDialog.Builder(context)
+            dialog.setTitle("Pilih tipe data")
+            dialog.setItems(R.array.tipe,DialogInterface.OnClickListener{
+                    dialog, which ->
+                if(which==0){
+//                    Todo simpan time xlsx
+                    println("kirim xlsx")
+                }
+                else if(which==1){
+//                    Todo simpan time xlsx
+                    println("kirim xls")
+                }
+                else{
+                    dialog.dismiss()
+                }
+
+            })
+            val dialogtampil = dialog.create()
+            dialogtampil.show()
+        }
+
+        keluar.setOnClickListener {
+//            Todo Logout
+        }
+
+        return view
+    }
+
+    private fun createFileXLS(){
+        var workbook = HSSFWorkbook()
+        var sheet = workbook.createSheet("Transaction")
+
+
+
+
+    }
+    private fun createFileXLSX(){
+
+
+
+
+    }
+
+    private fun createFolder(){
+        val folder = File(requireContext().getExternalFilesDir(null),"TransCribe")
+        if(!folder.exists()){
+            val created = folder.mkdir()
+            if(created) {
+                Toast.makeText(context, "Berhasil", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                Toast.makeText(context, "Gagal", Toast.LENGTH_SHORT).show()
+            }
+        }
+        else{
+            Toast.makeText(context, "Dah ada",Toast.LENGTH_SHORT).show()
+        }
     }
 
     companion object {

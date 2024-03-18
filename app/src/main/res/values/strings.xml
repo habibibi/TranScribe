@@ -4,4 +4,18 @@
     <string name="scan_menu_title">Scan</string>
     <string name="chart_menu_title">Chart</string>
     <string name="setting_menu_title">Pengaturan</string>
+    <string name="daftar_transaksi">Daftar Transaksi</string>
+    <string name="transaksi">Transaksi</string>
+    <string name="tombol_back">Tombol Back</string>
+    <string-array name="tipe">
+        <item>
+            xlsx
+        </item>
+        <item>
+            xls
+        </item>
+        <item>
+            Batal
+        </item>
+    </string-array>
 </resources>

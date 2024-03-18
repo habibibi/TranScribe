@@ -3,6 +3,7 @@ package com.ikp.transcribe.data.table
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.Date
 
 @Entity
 data class Transaction (
@@ -11,5 +12,6 @@ data class Transaction (
     @ColumnInfo(name = "judul") var judul : String?,
     @ColumnInfo(name = "kategori") var kategori : String?,
     @ColumnInfo(name = "nominal") var nominal : Int? = 0,
+    @ColumnInfo(name = "tanggal") var tanggal : String?,
     @ColumnInfo(name = "lokasi") var lokasi : String?
 )
