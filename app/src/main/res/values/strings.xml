@@ -29,8 +29,9 @@
     <string name="prompt_password">Password</string>
     <string name="action_login">Login</string>
     <string name="action_login_short">Login</string>
-    <string name="welcome">"Welcome to Transcribe!"</string>
-    <string name="invalid_email">Not a valid email</string>
-    <string name="invalid_password">Not a valid password</string>
-    <string name="login_failed">"Login failed"</string>
+    <string name="welcome">"Berhasil Login"</string>
+    <string name="invalid_email">Email tidak valid</string>
+    <string name="invalid_password">Password tidak valid</string>
+    <string name="login_failed">"Gagal Login"</string>
+    <string name="logout">Berhasil Logout</string>
 </resources>

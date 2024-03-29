@@ -1,16 +1,21 @@
 package com.ikp.transcribe.auth.ui
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ikp.transcribe.MainActivity
@@ -28,6 +33,27 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
+
+        val sharedPreferences = getSharedPreferences("auth", Context.MODE_PRIVATE)
+        var secretKey = sharedPreferences.getString("secret", CryptoConstants.generateSecretKey())
+        if (secretKey == null) {
+            secretKey = CryptoConstants.generateSecretKey()
+        }
+        var iv : String? = sharedPreferences.getString("iv", null)
+        if (iv == null) {
+            iv = CryptoConstants.generateIV()
+        }
+        val cryptoUtils = CryptoUtils(secretKey, iv)
+
+        val factory = LoginViewModelFactory(this, cryptoUtils)
+        loginViewModel = ViewModelProvider(this, factory)[LoginViewModel::class.java]
+        if (loginViewModel.isLogin()) {
+            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         super.onCreate(savedInstanceState)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -37,12 +63,6 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.password
         val login = binding.login
         val loading = binding.loading
-
-        val secretKey = CryptoConstants.generateSecretKey()
-        val iv = CryptoConstants.generateIV()
-        val cryptoUtils = CryptoUtils(secretKey, iv)
-        val factory = LoginViewModelFactory(this, cryptoUtils)
-        loginViewModel = ViewModelProvider(this, factory)[LoginViewModel::class.java]
 
         loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
             val loginState = it ?: return@Observer

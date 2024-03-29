@@ -1,11 +1,14 @@
 package com.ikp.transcribe
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.ikp.transcribe.auth.data.CryptoConstants
+import com.ikp.transcribe.auth.data.CryptoUtils
 import com.ikp.transcribe.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

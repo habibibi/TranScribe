@@ -31,8 +31,7 @@ class AuthRepository(context: Context, private val cryptoUtils: CryptoUtils) {
     // Storing Data
     private fun saveCredentials(email: String, token: String) {
         sharedPreferences.edit().putString(emailKey, email).apply()
-        val encryptedToken = cryptoUtils.encrypt(token)
-        sharedPreferences.edit().putString(tokenKey, encryptedToken).apply()
+        sharedPreferences.edit().putString(tokenKey, token).apply()
     }
     private fun deleteCredentials() {
         sharedPreferences.edit().remove(emailKey).remove(tokenKey).apply()
