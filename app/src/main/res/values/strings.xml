@@ -7,4 +7,16 @@
     <string name="add_transaction_desc">Add Transaction</string>
     <string name="placeholder">placeholder</string>
     <string name="nominal">Rp %1$d</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_login">Login</string>
+    <string name="action_login_short">Login</string>
+    <string name="welcome">"Welcome to Transcribe!"</string>
+    <string name="invalid_email">Not a valid email</string>
+    <string name="invalid_password">Not a valid password</string>
+    <string name="login_failed">"Login failed"</string>
 </resources>
