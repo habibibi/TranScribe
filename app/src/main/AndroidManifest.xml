@@ -18,6 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.App.Starting"
         tools:targetApi="31">
+        <service android:name=".auth.data.AuthService" />
         <activity
             android:name=".ui.transaction.AddTransactionActivity"
             android:exported="false"

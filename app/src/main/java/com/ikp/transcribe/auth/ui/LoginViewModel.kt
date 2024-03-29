@@ -1,6 +1,5 @@
 package com.ikp.transcribe.auth.ui
 
-import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -29,6 +28,10 @@ class LoginViewModel(private val authRepository: AuthRepository) : ViewModel() {
         }
     }
 
+    suspend fun checkToken(): Result<String> {
+        return authRepository.checkToken()
+    }
+
     fun loginDataChanged(email: String, password: String) {
         if (!isEmailValid(email)) {
             _loginForm.value = LoginFormState(emailError = R.string.invalid_email)
@@ -37,11 +40,6 @@ class LoginViewModel(private val authRepository: AuthRepository) : ViewModel() {
         } else {
             _loginForm.value = LoginFormState(isDataValid = true)
         }
-    }
-
-    fun isLogin(): Boolean {
-        val email = authRepository.getEmail()
-        return !email.isNullOrEmpty()
     }
 
     private fun isEmailValid(email: String): Boolean {

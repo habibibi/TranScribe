@@ -1,14 +1,10 @@
 package com.ikp.transcribe.auth.ui
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -20,12 +16,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ikp.transcribe.MainActivity
 import com.ikp.transcribe.R
-import com.ikp.transcribe.auth.data.CryptoConstants
-import com.ikp.transcribe.auth.data.CryptoUtils
+import com.ikp.transcribe.auth.data.Result
 import com.ikp.transcribe.databinding.ActivityLoginBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class LoginActivity : AppCompatActivity() {
 
@@ -33,25 +29,33 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
-
-        val sharedPreferences = getSharedPreferences("auth", Context.MODE_PRIVATE)
-        var secretKey = sharedPreferences.getString("secret", CryptoConstants.generateSecretKey())
-        if (secretKey == null) {
-            secretKey = CryptoConstants.generateSecretKey()
-        }
-        var iv : String? = sharedPreferences.getString("iv", null)
-        if (iv == null) {
-            iv = CryptoConstants.generateIV()
-        }
-        val cryptoUtils = CryptoUtils(secretKey, iv)
-
-        val factory = LoginViewModelFactory(this, cryptoUtils)
+        val factory = LoginViewModelFactory(this)
         loginViewModel = ViewModelProvider(this, factory)[LoginViewModel::class.java]
-        if (loginViewModel.isLogin()) {
-            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+
+        installSplashScreen().apply {
+            setKeepOnScreenCondition {
+                var isLoginValid = false
+                runBlocking {
+                    while (true) {
+                        val result = loginViewModel.checkToken()
+                        if (result is Result.Success) {
+                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                            isLoginValid = true
+                        }
+                        break
+                    }
+                }
+                if (!isLoginValid) {
+                    Toast.makeText(
+                        applicationContext,
+                        getString(R.string.relogin),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+                false
+            }
         }
 
         super.onCreate(savedInstanceState)

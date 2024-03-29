@@ -8,7 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.IOException
 
-class AuthRepository(context: Context, private val cryptoUtils: CryptoUtils) {
+class AuthRepository(context: Context) {
     // Storing data
     private val sharedPreferences = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
     private val emailKey = "email"
@@ -24,8 +24,8 @@ class AuthRepository(context: Context, private val cryptoUtils: CryptoUtils) {
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .baseUrl(baseUrl)
         .build()
-    private val authService: AuthService by lazy {
-        retrofit.create(AuthService::class.java)
+    private val authNetwork: AuthNetwork by lazy {
+        retrofit.create(AuthNetwork::class.java)
     }
 
     // Storing Data
@@ -40,15 +40,14 @@ class AuthRepository(context: Context, private val cryptoUtils: CryptoUtils) {
         return sharedPreferences.getString(emailKey, null)
     }
     private fun getToken(): String? {
-        val encryptedToken = sharedPreferences.getString(tokenKey, null)
-        return encryptedToken?.let { cryptoUtils.decrypt(it) }
+        return sharedPreferences.getString(tokenKey, null)
     }
 
     // Fetching data
     suspend fun login(email: String, password: String): Result<String> {
         return try {
             val request = LoginRequest(email, password)
-            val response = authService.login(request)
+            val response = authNetwork.login(request)
             val token = response.body()?.token
             if (token != null) {
                 saveCredentials(email, token)
@@ -70,15 +69,15 @@ class AuthRepository(context: Context, private val cryptoUtils: CryptoUtils) {
     }
     suspend fun checkToken(): Result<String> {
         return try {
-            val authToken = getToken()
-            val response = authToken?.let { authService.checkToken(it) }
+            val token = getToken()
+            val bearerToken = "Bearer $token"
+            val response = bearerToken?.let { authNetwork.checkToken(it) }
             val exp = response?.body()?.exp
             if (exp != null) {
                 val currentTimeSeconds = System.currentTimeMillis() / 1000
                 if (currentTimeSeconds < exp) {
                     Result.Success("Token has not expired")
                 } else {
-                    logout()
                     Result.Error(IOException("Token has expired"))
                 }
             } else {
