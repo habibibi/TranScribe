@@ -5,7 +5,8 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.transaction.TransactionFragment">
+    tools:context=".ui.transaction.TransactionFragment"
+    >
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv"

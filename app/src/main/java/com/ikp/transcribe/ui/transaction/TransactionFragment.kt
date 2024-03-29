@@ -1,5 +1,6 @@
 package com.ikp.transcribe.ui.transaction
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -65,11 +66,7 @@ class TransactionFragment : Fragment() {
         }
 
         binding.addButton.setOnClickListener {
-            // TODO: add navigation to Add Transaction Activity
-            lifecycleScope.launch(Dispatchers.IO) {
-                val dao = AppDatabase.getInstance(requireContext()).TransactionDao()
-                dao.insertData("test@gmail.com", "ayam", "Pembelian",10000,"bandung")
-            }
+            startActivity(Intent(context,AddTransactionActivity::class.java))
         }
         // TODO: remove if testing not needed
         binding.deleteAllButton.setOnClickListener {
