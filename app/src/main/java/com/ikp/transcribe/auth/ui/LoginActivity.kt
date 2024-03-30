@@ -32,31 +32,7 @@ class LoginActivity : AppCompatActivity() {
         val factory = LoginViewModelFactory(this)
         loginViewModel = ViewModelProvider(this, factory)[LoginViewModel::class.java]
 
-        installSplashScreen().apply {
-            setKeepOnScreenCondition {
-                var isLoginValid = false
-                runBlocking {
-                    while (true) {
-                        val result = loginViewModel.checkToken()
-                        if (result is Result.Success) {
-                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                            isLoginValid = true
-                        }
-                        break
-                    }
-                }
-                if (!isLoginValid) {
-                    Toast.makeText(
-                        applicationContext,
-                        getString(R.string.relogin),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-                false
-            }
-        }
+        installSplashScreen()
 
         super.onCreate(savedInstanceState)
 
@@ -137,7 +113,7 @@ class LoginActivity : AppCompatActivity() {
         Toast.makeText(
             applicationContext,
             "$welcome $email",
-            Toast.LENGTH_LONG
+            Toast.LENGTH_SHORT
         ).show()
     }
 

@@ -150,6 +150,8 @@ class SettingFragment : Fragment() {
         val intent = Intent(requireContext(), LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
+        val msg = getString(R.string.logout)
+        Toast.makeText(requireActivity().applicationContext, msg, Toast.LENGTH_SHORT).show()
         requireActivity().finish()
     }
 
