@@ -19,9 +19,9 @@ interface TransactionDao {
     @Query("DELETE FROM `transaction` WHERE id = :id")
     fun deleteData (id:Int)
 
-    @Query("UPDATE `transaction` SET judul = :judul, kategori = :kategori, nominal = :nominal, lokasi = :lokasi,tanggal = :tanggal " +
+    @Query("UPDATE `transaction` SET judul = :judul, nominal = :nominal, lokasi = :lokasi " +
             "WHERE id = :id")
-    fun updateData(id:Int,judul:String,kategori:String,nominal:Int,lokasi:String,tanggal: String)
+    fun updateData(id:Int,judul:String,nominal:Int,lokasi:String)
 
     @Query("SELECT * FROM `transaction` WHERE id = :id")
     fun getTransacID(id:Int): Transaction
