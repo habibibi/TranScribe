@@ -1,17 +1,70 @@
 package com.ikp.transcribe.auth.data
 
-import com.ikp.transcribe.auth.model.LoginRequest
-import com.ikp.transcribe.auth.model.LoginResponse
-import com.ikp.transcribe.auth.model.TokenResponse
-import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.Header
-import retrofit2.http.POST
+import android.app.Service
+import android.content.Context
+import android.content.Intent
+import android.os.Handler
+import android.os.IBinder
+import android.util.Log
+import android.widget.Toast
+import com.ikp.transcribe.R
+import com.ikp.transcribe.auth.ui.LoginActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
-interface AuthService {
-    @POST("api/auth/login")
-    suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
+class AuthService : Service() {
+    private val authRepository: AuthRepository by lazy {
+        AuthRepository(applicationContext)
+    }
 
-    @POST("api/auth/token")
-    suspend fun checkToken(@Header("Authorization") authToken: String): Response<TokenResponse>
+    private var job: Job? = null
+    private lateinit var coroutineScope: CoroutineScope
+
+    override fun onBind(intent: Intent?): IBinder? {
+        return null
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        startTokenCheck()
+        return START_STICKY
+    }
+
+    override fun onDestroy() {
+        coroutineScope.cancel()
+        super.onDestroy()
+    }
+
+    private fun startTokenCheck() {
+        coroutineScope = CoroutineScope(Dispatchers.Default)
+        job = coroutineScope.launch {
+            while (isActive) {
+                val result = authRepository.checkToken()
+                Log.i("service", result.toString())
+                if (result is Result.Error) {
+                    relogin()
+                    break
+                }
+                delay(TimeUnit.SECONDS.toMillis(10))
+            }
+        }
+    }
+
+    private fun relogin() {
+        val sharedPreferences = getSharedPreferences("auth", Context.MODE_PRIVATE)
+        sharedPreferences.edit().remove("email").remove("token").apply()
+        val intent = Intent(applicationContext, LoginActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
+        val msg = getString(R.string.relogin)
+        Handler(mainLooper).post {
+            Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
+        }
+        stopSelf()
+    }
 }

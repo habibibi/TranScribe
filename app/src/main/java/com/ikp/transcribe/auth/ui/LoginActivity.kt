@@ -11,12 +11,11 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ikp.transcribe.MainActivity
 import com.ikp.transcribe.R
-import com.ikp.transcribe.auth.data.CryptoConstants
-import com.ikp.transcribe.auth.data.CryptoUtils
 import com.ikp.transcribe.databinding.ActivityLoginBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,6 +27,11 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val factory = LoginViewModelFactory(this)
+        loginViewModel = ViewModelProvider(this, factory)[LoginViewModel::class.java]
+
+        installSplashScreen()
+
         super.onCreate(savedInstanceState)
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -37,12 +41,6 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.password
         val login = binding.login
         val loading = binding.loading
-
-        val secretKey = CryptoConstants.generateSecretKey()
-        val iv = CryptoConstants.generateIV()
-        val cryptoUtils = CryptoUtils(secretKey, iv)
-        val factory = LoginViewModelFactory(this, cryptoUtils)
-        loginViewModel = ViewModelProvider(this, factory)[LoginViewModel::class.java]
 
         loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
             val loginState = it ?: return@Observer
@@ -113,7 +111,7 @@ class LoginActivity : AppCompatActivity() {
         Toast.makeText(
             applicationContext,
             "$welcome $email",
-            Toast.LENGTH_LONG
+            Toast.LENGTH_SHORT
         ).show()
     }
 
