@@ -6,58 +6,75 @@
     android:layout_height="match_parent"
     tools:context=".ui.scan.ScanFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/scan_menu_title"
+    <ImageView
+        android:id="@+id/captured_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:translationZ="2dp"
+        android:contentDescription="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/scanner_camera_view" />
+        app:layout_constraintTop_toTopOf="@+id/scanner_camera_view"
+        tools:src="@tools:sample/avatars" />
 
     <androidx.camera.view.PreviewView
         android:id="@+id/scanner_camera_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="invisible"
+        android:translationZ="1dp"
         tools:layout_editor_absoluteX="131dp"
-        tools:layout_editor_absoluteY="198dp" />
+        tools:layout_editor_absoluteY="198dp">
+
+    </androidx.camera.view.PreviewView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/camera_permission_required"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/scanner_camera_view" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/captureButton"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginBottom="42dp"
-        app:backgroundTint="@color/white"
-        style="@style/Widget.MaterialComponents.Button"
+        android:layout_marginBottom="24dp"
         android:contentDescription="@string/capture_image_desc"
         android:insetLeft="0dp"
         android:insetTop="0dp"
         android:insetRight="0dp"
         android:insetBottom="0dp"
+        android:translationZ="5dp"
+        app:backgroundTint="@color/white"
         app:cornerRadius="50dp"
         app:icon="@drawable/baseline_camera_alt_24"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
         app:iconSize="35dp"
         app:iconTint="@color/black"
-        app:rippleColor="#a1a1a1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:rippleColor="#a1a1a1" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/open_image_button"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="24dp"
         android:contentDescription="@string/open_image_desc"
         android:insetLeft="0dp"
         android:insetTop="0dp"
         android:insetRight="0dp"
         android:insetBottom="0dp"
+        android:translationZ="5dp"
         app:cornerRadius="50dp"
         app:icon="@drawable/baseline_image_24"
         app:iconGravity="textStart"

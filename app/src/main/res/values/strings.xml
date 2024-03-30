@@ -35,4 +35,8 @@
     <string name="login_failed">"Login failed"</string>
     <string name="open_image_desc">Open Image</string>
     <string name="capture_image_desc">Capture Image</string>
+    <string name="camera_permission_required">Camera permission required</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="image_preview">Image Preview</string>
 </resources>
