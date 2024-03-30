@@ -1,11 +1,17 @@
 package com.ikp.transcribe.ui.scan
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ikp.transcribe.R
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.CameraSelector
+import androidx.camera.view.LifecycleCameraController
+import androidx.camera.view.PreviewView
+import androidx.core.content.ContextCompat
+import com.ikp.transcribe.databinding.FragmentScanBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +27,8 @@ class ScanFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private var _binding: FragmentScanBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,9 +41,59 @@ class ScanFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_scan, container, false)
+    ): View {
+        _binding = FragmentScanBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        hideCamera()
+        val requestPermissionLauncher =
+            registerForActivityResult(
+                ActivityResultContracts.RequestPermission()
+            ) { isGranted: Boolean ->
+                if (isGranted) startCamera()
+            }
+
+        when {
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                android.Manifest.permission.CAMERA) ==
+                    PackageManager.PERMISSION_GRANTED -> {
+                        startCamera()
+
+                    }
+            else ->{
+                requestPermissionLauncher.launch(android.Manifest.permission.CAMERA)
+            }
+        }
+
+    }
+
+    private fun startCamera(){
+        val previewView: PreviewView = binding.scannerCameraView
+        val cameraController = LifecycleCameraController(requireContext())
+        cameraController.bindToLifecycle(this)
+        cameraController.cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+        previewView.controller = cameraController
+        previewView.visibility = View.VISIBLE
+    }
+
+    private fun hideCamera(){
+        val previewView: PreviewView = binding.scannerCameraView
+        previewView.visibility = View.GONE
+    }
+
+    private fun stopCamera(){
+        val cameraController = LifecycleCameraController(requireContext())
+        cameraController.unbind()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        stopCamera()
+
     }
 
     companion object {

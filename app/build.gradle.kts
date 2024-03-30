@@ -71,4 +71,8 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:2.6.1")
     ksp("androidx.room:room-compiler:2.6.1")
 
+    // CameraX core library using the camera2 implementation
+    val cameraxVersion = "1.4.0-alpha04"
+    implementation("androidx.camera:camera-camera2:${cameraxVersion}")
+    implementation("androidx.camera:camera-view:${cameraxVersion}")
 }
