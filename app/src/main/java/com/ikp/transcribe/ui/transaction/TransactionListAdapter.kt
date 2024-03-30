@@ -1,6 +1,7 @@
 package com.ikp.transcribe.ui.transaction
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,20 +29,22 @@ class TransactionListAdapter() : ListAdapter<Transaction,TransactionListAdapter.
             parent, false)
         val holder = ViewHolder(layout)
         context = parent.context
-
-        holder.transactionCard.setOnClickListener{
-            // TODO: add edit transaction
-            Toast.makeText(parent.context,"edit transaksi",Toast.LENGTH_SHORT).show()
-        }
         return holder
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         // TODO: add date
-        holder.transactionDate.text = context.getString(R.string.placeholder)
+        holder.transactionDate.text = getItem(position).tanggal
         holder.transactionName.text = getItem(position).judul
         holder.transactionPrice.text = context.getString(R.string.nominal,getItem(position).nominal)
         holder.transactionCategory.text = getItem(position).kategori
         holder.transactionLocation.text = getItem(position).lokasi
+
+        holder.transactionCard.setOnClickListener{
+            val id = getItem(position).id
+            val intent = Intent(context,AddTransactionActivity::class.java)
+            intent.putExtra("id",id)
+            context.startActivity(intent)
+        }
     }
 }
 
