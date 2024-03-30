@@ -2,6 +2,7 @@ package com.ikp.transcribe.ui.transaction
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,6 +45,18 @@ class TransactionListAdapter() : ListAdapter<Transaction,TransactionListAdapter.
             val intent = Intent(context,AddTransactionActivity::class.java)
             intent.putExtra("id",id)
             context.startActivity(intent)
+        }
+        holder.transactionLocation.setOnClickListener {
+            val address = getItem(position).lokasi
+            val uri = Uri.parse("geo:0,0?q=$address")
+            val mapIntent = Intent(Intent.ACTION_VIEW, uri)
+            mapIntent.setPackage("com.google.android.apps.maps")
+            if (mapIntent.resolveActivity(context.packageManager) != null) {
+                context.startActivity(mapIntent)
+            } else {
+                val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/search/?api=1&query=$address"))
+                context.startActivity(webIntent)
+            }
         }
     }
 }
