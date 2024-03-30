@@ -2,14 +2,18 @@ package com.ikp.transcribe.ui.chart
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.ikp.transcribe.R
 import com.ikp.transcribe.data.AppDatabase
 import com.ikp.transcribe.databinding.FragmentChartBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,47 +54,55 @@ class ChartFragment : Fragment() {
 
         val sharedPreferences = requireContext().getSharedPreferences("auth", Context.MODE_PRIVATE)
         val email = sharedPreferences.getString("email", null)
-        val dao = AppDatabase.getInstance(requireContext()).TransactionDao()
-        val transactions = email?.let { dao.getTransaction(it) }
 
         var totalIncome = 0
         var totalExpense = 0
         var totalTransaction = 0
-        if (transactions != null) {
-            for (transaction in transactions) {
-                if (transaction.kategori == "Pemasukan") {
-                    totalIncome += transaction.nominal ?: 0
-                } else if (transaction.kategori == "Pengeluaran") {
-                    totalExpense += transaction.nominal ?: 0
+
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val dao = AppDatabase.getInstance(requireContext()).TransactionDao()
+                val transactions = email?.let { dao.getTransaction(it) }
+
+                transactions?.let {
+                    for (transaction in it) {
+                        if (transaction.kategori == "Pemasukan") {
+                            totalIncome += transaction.nominal ?: 0
+                        } else if (transaction.kategori == "Pengeluaran") {
+                            totalExpense += transaction.nominal ?: 0
+                        }
+                        totalTransaction += transaction.nominal ?: 0
+                    }
                 }
-                totalTransaction += transaction.nominal ?: 0
-            }
-        }
 
-        if (totalTransaction == 0) {
-            binding.donutChart.visibility = View.GONE
-            binding.pemasukan.text = getString(R.string.pemasukan_kosong)
-            binding.pengeluaran.text = getString(R.string.pengeluaran_kosong)
-        } else {
-            val colorPemasukan = ContextCompat.getColor(requireContext(), R.color.pemasukan)
-            val colorPengeluaran = ContextCompat.getColor(requireContext(), R.color.pengeluaran)
-            val animationDuration = 1000L
-            val valuePemasukan = totalIncome.toFloat() / totalTransaction.toFloat() * 360f
-            val valuePengeluaran = totalExpense.toFloat() / totalTransaction.toFloat() * 360f
-            val donutSet = listOf(
-                valuePemasukan,
-                valuePengeluaran
-            )
+                if (totalTransaction == 0) {
+                    binding.donutChart.visibility = View.GONE
+                    binding.pemasukan.text = getString(R.string.pemasukan_kosong)
+                    binding.pengeluaran.text = getString(R.string.pengeluaran_kosong)
+                } else {
+                    val colorPemasukan = ContextCompat.getColor(requireContext(), R.color.pemasukan)
+                    val colorPengeluaran = ContextCompat.getColor(requireContext(), R.color.pengeluaran)
+                    val animationDuration = 1000L
+                    val valuePemasukan = totalIncome.toFloat() / totalTransaction.toFloat() * 360f
+                    val valuePengeluaran = totalExpense.toFloat() / totalTransaction.toFloat() * 360f
+                    val donutSet = listOf(
+                        valuePemasukan,
+                        valuePengeluaran
+                    )
 
-            binding.apply {
-                donutChart.donutColors = intArrayOf(
-                    colorPemasukan,
-                    colorPengeluaran
-                )
-                donutChart.animation.duration = animationDuration
-                donutChart.animate(donutSet)
-                pemasukan.text = getString(R.string.pemasukan, totalIncome)
-                pengeluaran.text = getString(R.string.pengeluaran, totalExpense)
+                    binding.apply {
+                        donutChart.donutColors = intArrayOf(
+                            colorPemasukan,
+                            colorPengeluaran
+                        )
+                        donutChart.animation.duration = animationDuration
+                        donutChart.animate(donutSet)
+                        pemasukan.text = getString(R.string.pemasukan, totalIncome)
+                        pengeluaran.text = getString(R.string.pengeluaran, totalExpense)
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("ChartFragment", "Error fetching transactions: ${e.message}")
             }
         }
     }

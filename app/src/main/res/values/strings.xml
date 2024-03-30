@@ -36,5 +36,5 @@
     <string name="pemasukan">Pemasukan: %1$d</string>
     <string name="pengeluaran">Pengeluaran: %1$d</string>
     <string name="pemasukan_kosong">Belum ada pemasukan</string>
-    <string name="pengeluaran_kosong">Belum ada pengluaran</string>
+    <string name="pengeluaran_kosong">Belum ada pengeluaran</string>
 </resources>
