@@ -1,11 +1,13 @@
 package com.ikp.transcribe
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.ikp.transcribe.auth.data.AuthService
 import com.ikp.transcribe.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -14,6 +16,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        val authServiceIntent = Intent(this, AuthService::class.java)
+        startService(authServiceIntent)
         setContentView(binding.root)
         setupNavigation()
     }
