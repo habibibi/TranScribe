@@ -2,7 +2,9 @@ package com.ikp.transcribe.ui.setting
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,6 +15,8 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.ikp.transcribe.R
+import com.ikp.transcribe.auth.data.AuthService
+import com.ikp.transcribe.auth.ui.LoginActivity
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import java.io.File
 
@@ -99,7 +103,7 @@ class SettingFragment : Fragment() {
         }
 
         keluar.setOnClickListener {
-//            Todo Logout
+            logout()
         }
 
         return view
@@ -135,6 +139,22 @@ class SettingFragment : Fragment() {
             Toast.makeText(context, "Dah ada",Toast.LENGTH_SHORT).show()
         }
     }
+
+    private fun logout() {
+        val sharedPreferences = requireContext().getSharedPreferences("auth", Context.MODE_PRIVATE)
+        sharedPreferences.edit().remove("email").remove("token").apply()
+
+        val authServiceIntent = Intent(requireContext(), AuthService::class.java)
+        requireContext().stopService(authServiceIntent)
+
+        val intent = Intent(requireContext(), LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        val msg = getString(R.string.logout)
+        Toast.makeText(requireActivity().applicationContext, msg, Toast.LENGTH_SHORT).show()
+        requireActivity().finish()
+    }
+
 
     companion object {
         /**
