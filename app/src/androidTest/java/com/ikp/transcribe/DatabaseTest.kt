@@ -86,10 +86,8 @@ class DatabaseTest {
         assert(list.isNotEmpty())
         dao.updateData(list[0].id!!,
             "Bebek",
-            transaction.kategori!!,
             transaction.nominal!!,
-            transaction.lokasi!!,
-            transaction.tanggal!!)
+            transaction.lokasi!!)
         list = dao.getTransaction("test@email")
         assertEquals(list[0].judul, "Bebek")
     }

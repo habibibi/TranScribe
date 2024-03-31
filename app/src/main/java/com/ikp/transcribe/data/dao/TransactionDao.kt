@@ -10,7 +10,7 @@ interface TransactionDao {
     @Query("SELECT * FROM `transaction` WHERE email LIKE :email")
     suspend fun getTransaction(email:String): List<Transaction>
     @Query("SELECT * FROM `transaction` WHERE email LIKE :email")
-    suspend fun getFlowTransaction(email:String): Flow<List<Transaction>>
+    fun getFlowTransaction(email:String): Flow<List<Transaction>>
 
     @Query("INSERT INTO `transaction` (email,judul,kategori,nominal,lokasi,tanggal) " +
             "VALUES (:email,:judul,:kategori,:nominal,:lokasi,:tanggal)")

@@ -21,6 +21,7 @@
     <string name="add_transaction_desc">Add Transaction</string>
     <string name="placeholder">placeholder</string>
     <string name="nominal">Rp %1$d</string>
+    <string name="nominaldesimal">Rp %1$.2f</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="login">Login</string>

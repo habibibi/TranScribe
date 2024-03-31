@@ -12,7 +12,7 @@ import com.ikp.transcribe.data.model.Item
 
 class ItemListAdapter(val data: List<Item>) : RecyclerView.Adapter<ItemListAdapter.ViewHolder>() {
     private lateinit var context : Context
-    class ViewHolder(val row : View) : RecyclerView.ViewHolder(row){
+    class ViewHolder(row : View) : RecyclerView.ViewHolder(row){
         val itemName = row.findViewById<TextView>(R.id.itemName_value)
         val itemQuantity = row.findViewById<TextView>(R.id.itemQuantity_value)
         val itemPrice = row.findViewById<TextView>(R.id.itemPrice_value)
@@ -28,7 +28,7 @@ class ItemListAdapter(val data: List<Item>) : RecyclerView.Adapter<ItemListAdapt
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemName.text = data[position].name
         holder.itemQuantity.text = data[position].quantity.toString()
-        holder.itemPrice.text = context.getString(R.string.nominal,data[position].quantity)
+        holder.itemPrice.text = context.getString(R.string.nominaldesimal,data[position].price)
     }
 
     override fun getItemCount(): Int {

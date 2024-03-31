@@ -1,6 +1,5 @@
 package com.ikp.transcribe.data.repository
 
-import android.content.Context
 import android.util.Log
 import com.ikp.transcribe.data.model.Item
 import com.squareup.moshi.Moshi
@@ -13,9 +12,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.File
 
 
-class BillRepository(context : Context){
-    private val sharedPreferences = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
-    private val token = sharedPreferences.getString("token", "token")!!
+class BillRepository{
 
     private val baseUrl =
         "https://pbd-backend-2024.vercel.app"
@@ -30,7 +27,7 @@ class BillRepository(context : Context){
         retrofit.create(BillService::class.java)
     }
 
-    suspend fun getBill(image : File) : List<Item>{
+    suspend fun getBill(token : String, image : File) : List<Item>{
         val filePart = MultipartBody.Part.createFormData(
             "file", image.getName(), RequestBody.create(
                 MediaType.parse("image/*"), image
@@ -43,7 +40,7 @@ class BillRepository(context : Context){
                 filePart
             )
             if (response.isSuccessful) {
-                return response.body()?.items?.items ?: emptyList()
+                return response.body()!!.items.items
             } else {
                 // Handle HTTP error response
                 Log.e("bill", "HTTP Error: ${response.code()}")
