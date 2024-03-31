@@ -1,12 +1,19 @@
 package com.ikp.transcribe.ui.scan
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.ikp.transcribe.data.repository.BillRepository
 import com.ikp.transcribe.databinding.FragmentScanConfirmationBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 
 
@@ -45,9 +52,26 @@ class ScanConfirmationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val rv : RecyclerView = binding.billItemList
+        rv.layoutManager = LinearLayoutManager(activity)
+
+        val divider =  DividerItemDecoration(rv.context, LinearLayout.VERTICAL)
+        rv.addItemDecoration(divider)
+
+
+
         val imageFile = File(requireContext().cacheDir, "tmp.jpeg")
-        val imageUri = Uri.fromFile(imageFile)
-        binding.imageView.setImageURI(imageUri)
+        val billRepository = BillRepository(requireContext())
+        lifecycleScope.launch(Dispatchers.Default) {
+            val items = billRepository.getBill(imageFile)
+            view.post{
+                val adapter = ItemListAdapter(items)
+                rv.adapter = adapter
+                binding.loadingPanel.visibility = View.GONE
+                binding.scanConfirmationMenu.visibility = View.VISIBLE
+            }
+        }
     }
 
     companion object {

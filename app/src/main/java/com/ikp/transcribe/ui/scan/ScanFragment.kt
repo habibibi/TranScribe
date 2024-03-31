@@ -135,7 +135,7 @@ class ScanFragment : Fragment() {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     requireView().post {
                         Navigation.findNavController(requireView())
-                            .navigate(R.id.action_navigation_scan_to_scanConfirmationFragment);
+                            .navigate(R.id.action_navigation_scan_to_scanConfirmationFragment)
                     }
                 }
         } )

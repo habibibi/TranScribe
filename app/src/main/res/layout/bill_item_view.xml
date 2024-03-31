@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingHorizontal="4dp">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp">
+        <TextView
+            android:id="@+id/itemName_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/nama" />
+
+        <TextView
+            android:id="@+id/itemName_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/placeholder"
+            android:layout_weight="1" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:id="@+id/itemQuantity_view"
+            android:layout_width="95dp"
+            android:layout_height="wrap_content"
+            android:text="@string/kuantitas" />
+
+        <TextView
+            android:id="@+id/itemQuantity_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/placeholder" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/itemPrice_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/harga" />
+
+        <TextView
+            android:id="@+id/itemPrice_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/placeholder"
+            android:layout_weight="1" />
+
+    </TableRow>
+
+</TableLayout>
