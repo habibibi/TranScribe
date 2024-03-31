@@ -28,6 +28,10 @@ class LoginViewModel(private val authRepository: AuthRepository) : ViewModel() {
         }
     }
 
+    suspend fun checkToken(): Result<String> {
+        return authRepository.checkToken()
+    }
+
     fun loginDataChanged(email: String, password: String) {
         if (!isEmailValid(email)) {
             _loginForm.value = LoginFormState(emailError = R.string.invalid_email)

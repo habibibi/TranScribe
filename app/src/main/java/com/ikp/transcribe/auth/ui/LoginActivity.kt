@@ -16,10 +16,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ikp.transcribe.MainActivity
 import com.ikp.transcribe.R
+import com.ikp.transcribe.auth.data.Result
 import com.ikp.transcribe.databinding.ActivityLoginBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class LoginActivity : AppCompatActivity() {
 
@@ -30,7 +32,22 @@ class LoginActivity : AppCompatActivity() {
         val factory = LoginViewModelFactory(this)
         loginViewModel = ViewModelProvider(this, factory)[LoginViewModel::class.java]
 
-        installSplashScreen()
+        installSplashScreen().apply {
+            setKeepOnScreenCondition {
+                runBlocking {
+                    while (true) {
+                        val result = loginViewModel.checkToken()
+                        if (result is Result.Success) {
+                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                        break
+                    }
+                }
+                false
+            }
+        }
 
         super.onCreate(savedInstanceState)
 

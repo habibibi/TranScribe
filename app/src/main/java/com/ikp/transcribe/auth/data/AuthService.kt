@@ -56,6 +56,7 @@ class AuthService : Service() {
     }
 
     private fun relogin() {
+        stopSelf()
         val sharedPreferences = getSharedPreferences("auth", Context.MODE_PRIVATE)
         sharedPreferences.edit().remove("email").remove("token").apply()
         stopSelf()
