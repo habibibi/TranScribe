@@ -1,4 +1,4 @@
-package com.ikp.transcribe.auth.data
+package com.ikp.transcribe.auth.crypto
 
 import android.util.Base64
 import java.security.SecureRandom

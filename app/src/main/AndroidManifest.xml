@@ -19,11 +19,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TranScribe"
+        android:theme="@style/Theme.App.Starting"
         tools:targetApi="31">
+        <service android:name=".auth.data.AuthService" />
         <activity
             android:name=".ui.transaction.AddTransactionActivity"
-            android:exported="false" >
+            android:exported="false"
+            android:theme="@style/Theme.TranScribe" >
         </activity>
         <activity
             android:name="com.ikp.transcribe.auth.ui.LoginActivity"
@@ -33,7 +35,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.TranScribe" >
+        </activity>
     </application>
 
 </manifest>
