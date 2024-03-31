@@ -33,12 +33,7 @@ class AuthRepository(context: Context) {
         sharedPreferences.edit().putString(emailKey, email).apply()
         sharedPreferences.edit().putString(tokenKey, token).apply()
     }
-    private fun deleteCredentials() {
-        sharedPreferences.edit().remove(emailKey).remove(tokenKey).apply()
-    }
-    fun getEmail(): String? {
-        return sharedPreferences.getString(emailKey, null)
-    }
+
     private fun getToken(): String? {
         return sharedPreferences.getString(tokenKey, null)
     }
@@ -59,20 +54,13 @@ class AuthRepository(context: Context) {
             Result.Error(IOException("Error logging in", e))
         }
     }
-    private fun logout(): Result<String> {
-        return try {
-            deleteCredentials()
-            Result.Success("Logout successful")
-        } catch (e: Throwable) {
-            Result.Error(IOException("Error logging out", e))
-        }
-    }
+
     suspend fun checkToken(): Result<String> {
         return try {
             val token = getToken()
             val bearerToken = "Bearer $token"
-            val response = bearerToken?.let { authNetwork.checkToken(it) }
-            val exp = response?.body()?.exp
+            val response = bearerToken.let { authNetwork.checkToken(it) }
+            val exp = response.body()?.exp
             if (exp != null) {
                 val currentTimeSeconds = System.currentTimeMillis() / 1000
                 if (currentTimeSeconds < exp) {

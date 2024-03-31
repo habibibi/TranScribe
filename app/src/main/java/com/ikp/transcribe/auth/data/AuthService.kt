@@ -13,7 +13,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -57,6 +56,7 @@ class AuthService : Service() {
     }
 
     private fun relogin() {
+        stopSelf()
         val sharedPreferences = getSharedPreferences("auth", Context.MODE_PRIVATE)
         sharedPreferences.edit().remove("email").remove("token").apply()
         val intent = Intent(applicationContext, LoginActivity::class.java)
@@ -66,6 +66,5 @@ class AuthService : Service() {
         Handler(mainLooper).post {
             Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
         }
-        stopSelf()
     }
 }
