@@ -58,6 +58,7 @@ class AuthService : Service() {
     private fun relogin() {
         val sharedPreferences = getSharedPreferences("auth", Context.MODE_PRIVATE)
         sharedPreferences.edit().remove("email").remove("token").apply()
+        stopSelf()
         val intent = Intent(applicationContext, LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
@@ -65,6 +66,5 @@ class AuthService : Service() {
         Handler(mainLooper).post {
             Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()
         }
-        stopSelf()
     }
 }

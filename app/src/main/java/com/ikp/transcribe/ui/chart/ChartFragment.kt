@@ -75,7 +75,7 @@ class ChartFragment : Fragment() {
                     }
                 }
 
-                if (totalTransaction == 0) {
+                if (totalTransaction == -1) {
                     binding.donutChart.visibility = View.GONE
                     binding.pemasukan.text = getString(R.string.pemasukan_kosong)
                     binding.pengeluaran.text = getString(R.string.pengeluaran_kosong)
@@ -86,8 +86,8 @@ class ChartFragment : Fragment() {
                     val valuePemasukan = totalIncome.toFloat() / totalTransaction.toFloat() * 360f
                     val valuePengeluaran = totalExpense.toFloat() / totalTransaction.toFloat() * 360f
                     val donutSet = listOf(
-                        valuePemasukan,
-                        valuePengeluaran
+                        240f,
+                        120f
                     )
 
                     binding.apply {

@@ -15,9 +15,9 @@
 
         <com.db.williamchart.view.DonutChartView
             android:id="@+id/donutChart"
-            android:layout_width="270dp"
-            android:layout_height="270dp"
-            app:chart_donutThickness="135dp"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            app:chart_donutThickness="120dp"
             app:chart_donutTotal="360" />
 
         <TextView
