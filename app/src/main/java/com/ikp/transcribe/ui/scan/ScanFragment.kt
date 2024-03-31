@@ -16,9 +16,14 @@ import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import com.ikp.transcribe.MainViewModel
 import com.ikp.transcribe.R
 import com.ikp.transcribe.databinding.FragmentScanBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 import java.util.concurrent.Executors
 
@@ -38,6 +43,8 @@ class ScanFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var _binding: FragmentScanBinding? = null
+    private val viewModel : MainViewModel by activityViewModels()
+
     private val binding get() = _binding!!
 
     private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.GetContent()){
@@ -51,8 +58,7 @@ class ScanFragment : Fragment() {
                 }
                 inputstream!!.copyTo(target.outputStream())
                 requireView().post {
-                    Navigation.findNavController(requireView())
-                        .navigate(R.id.action_navigation_scan_to_scanConfirmationFragment)
+                    uploadImage()
                 }
             }
     }
@@ -128,17 +134,29 @@ class ScanFragment : Fragment() {
                 override fun onCaptureStarted() {
                     super.onCaptureStarted()
                     requireView().post{
+
                         binding.capturedPreview.setImageBitmap(previewView.bitmap)
                         binding.capturedPreview.visibility = View.VISIBLE
                     }
                 }
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     requireView().post {
-                        Navigation.findNavController(requireView())
-                            .navigate(R.id.action_navigation_scan_to_scanConfirmationFragment)
+                        uploadImage()
                     }
                 }
         } )
+    }
+
+    private fun uploadImage(){
+        binding.loadingPanel.visibility = View.VISIBLE
+        val imageFile = File(requireContext().cacheDir, "tmp.jpeg")
+        lifecycleScope.launch(Dispatchers.IO){
+            viewModel.fetchBillItems(imageFile)
+            view?.post {
+                Navigation.findNavController(requireView())
+                    .navigate(R.id.action_navigation_scan_to_scanConfirmationFragment)
+            }
+        }
     }
 
     private fun chooseImage(){

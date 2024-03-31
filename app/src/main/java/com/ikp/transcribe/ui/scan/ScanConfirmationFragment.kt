@@ -7,15 +7,11 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ikp.transcribe.MainViewModel
 import com.ikp.transcribe.databinding.FragmentScanConfirmationBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.io.File
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -36,21 +32,9 @@ class ScanConfirmationFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel : MainViewModel by activityViewModels()
     private lateinit var rv : RecyclerView
-    private var hasFetch : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        hasFetch = savedInstanceState?.getBoolean("hasFetch") ?: false
-        if (!hasFetch) {
-            val imageFile = File(requireContext().cacheDir, "tmp.jpeg")
-            lifecycleScope.launch(Dispatchers.IO){
-                viewModel.fetchBillItems(imageFile)
-                hasFetch = true
-                view?.post{
-                    finishLoading()
-                }
-            }
-        }
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
@@ -68,25 +52,14 @@ class ScanConfirmationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rv = binding.billItemList
-        rv.layoutManager = LinearLayoutManager(activity)
+        rv.adapter = ItemListAdapter(viewModel.getBillItems())
         val divider =  DividerItemDecoration(rv.context, LinearLayout.VERTICAL)
         rv.addItemDecoration(divider)
-
-        if (hasFetch) finishLoading()
+        rv.layoutManager = LinearLayoutManager(activity)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-    }
-    private fun finishLoading(){
-        rv.adapter = ItemListAdapter(viewModel.getBillItems())
-        binding.loadingPanel.visibility = View.GONE
-        binding.scanConfirmationMenu.visibility = View.VISIBLE
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putBoolean("hasFetch",hasFetch)
     }
 
     companion object {

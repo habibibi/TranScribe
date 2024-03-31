@@ -12,14 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingBottom="80dp"
-        android:scrollbarStyle="outsideOverlay"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:paddingBottom="50dp"
+        android:scrollbarStyle="outsideOverlay">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:padding="10dp">
 
             <Button
@@ -51,10 +49,17 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="10dp">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/billItemList"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="252dp" />
+                    android:layout_height="252dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/customborder">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/billItemList"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/transactionNameTextView"
@@ -126,25 +131,4 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-    <RelativeLayout
-        android:id="@+id/loadingPanel"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background"
-        android:gravity="center"
-        android:visibility="visible"
-        tools:ignore="UselessParent"
-        tools:visibility="gone">
-
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-
-            />
-
-    </RelativeLayout>
-
-
 </FrameLayout>

@@ -18,7 +18,7 @@
         android:scrollbarStyle="outsideOverlay"
         android:scrollbars="vertical"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        tools:layout_editor_absoluteY="0dp"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/addButton"
