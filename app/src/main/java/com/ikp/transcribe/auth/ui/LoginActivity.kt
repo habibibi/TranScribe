@@ -32,7 +32,22 @@ class LoginActivity : AppCompatActivity() {
         val factory = LoginViewModelFactory(this)
         loginViewModel = ViewModelProvider(this, factory)[LoginViewModel::class.java]
 
-        installSplashScreen()
+        installSplashScreen().apply {
+            setKeepOnScreenCondition {
+                runBlocking {
+                    while (true) {
+                        val result = loginViewModel.checkToken()
+                        if (result is Result.Success) {
+                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                        break
+                    }
+                }
+                false
+            }
+        }
 
         super.onCreate(savedInstanceState)
 
