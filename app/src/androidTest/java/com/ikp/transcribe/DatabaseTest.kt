@@ -8,12 +8,10 @@ import com.ikp.transcribe.data.dao.TransactionDao
 import com.ikp.transcribe.data.table.Transaction
 import kotlinx.coroutines.runBlocking
 import org.junit.After
-
+import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.*
-import org.junit.Before
 
 /**
  * Instrumented test, which will execute on an Android device.

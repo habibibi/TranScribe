@@ -53,4 +53,8 @@
     <string name="simpan">Simpan</string>
     <string name="kembali">Kembali</string>
     <string name="pengeluaran">Pengeluaran</string>
+    <string name="pemasukan">Pemasukan: Rp.%1$s</string>
+    <string name="pengeluaran">Pengeluaran: Rp.%1$s</string>
+    <string name="pemasukan_kosong">Belum ada pemasukan</string>
+    <string name="pengeluaran_kosong">Belum ada pengeluaran</string>
 </resources>

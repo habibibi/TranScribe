@@ -33,7 +33,6 @@ class AuthRepository(context: Context) {
         sharedPreferences.edit().putString(emailKey, email).apply()
         sharedPreferences.edit().putString(tokenKey, token).apply()
     }
-
     private fun getToken(): String? {
         return sharedPreferences.getString(tokenKey, null)
     }
@@ -54,7 +53,6 @@ class AuthRepository(context: Context) {
             Result.Error(IOException("Error logging in", e))
         }
     }
-
     suspend fun checkToken(): Result<String> {
         return try {
             val token = getToken()

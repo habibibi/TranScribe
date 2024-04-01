@@ -47,7 +47,7 @@ class AuthService : Service() {
                 val result = authRepository.checkToken()
                 Log.i("service", result.toString())
                 if (result is Result.Error) {
-                    relogin()
+                    logout()
                     break
                 }
                 delay(TimeUnit.SECONDS.toMillis(10))
@@ -55,13 +55,16 @@ class AuthService : Service() {
         }
     }
 
-    private fun relogin() {
+    private fun logout() {
         stopSelf()
+
         val sharedPreferences = getSharedPreferences("auth", Context.MODE_PRIVATE)
         sharedPreferences.edit().remove("email").remove("token").apply()
+
         val intent = Intent(applicationContext, LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
+
         val msg = getString(R.string.relogin)
         Handler(mainLooper).post {
             Toast.makeText(applicationContext, msg, Toast.LENGTH_SHORT).show()

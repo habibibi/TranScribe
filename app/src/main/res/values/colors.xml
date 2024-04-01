@@ -4,4 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="transparent_black">#80000000</color>
     <color name="background">#FFFFFFFF</color>
+    <color name="pemasukan">#50B432</color>
+    <color name="pengeluaran">#ED561B</color>
 </resources>

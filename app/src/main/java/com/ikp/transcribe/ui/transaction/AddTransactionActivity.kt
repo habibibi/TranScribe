@@ -34,8 +34,6 @@ class AddTransactionActivity : AppCompatActivity() {
     private lateinit var fused : FusedLocationProviderClient
     private val mainViewModel : MainViewModel by viewModels()
 
-//    ----TODO Ganti Email-----
-
     private lateinit var emailnow : String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
