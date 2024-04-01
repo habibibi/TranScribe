@@ -45,9 +45,10 @@ class DatabaseTest {
                 email = "test@email",
                 judul = "Ayam",
                 kategori = "Pembelian",
-                nominal = 10,
-                lokasi = "Bandung")
-        dao.insertData(transaction.email!!,transaction.judul!!,transaction.kategori!!,transaction.nominal!!,transaction.lokasi!!)
+                nominal = 10.0,
+                lokasi = "Bandung",
+                tanggal = "01/01/2000")
+        dao.insertData(transaction.email!!,transaction.judul!!,transaction.kategori!!,transaction.nominal!!,transaction.lokasi!!,transaction.tanggal!!)
         val list = dao.getTransaction("test@email")
         assert(list.isNotEmpty())
         transaction.id = list[0].id
@@ -60,9 +61,10 @@ class DatabaseTest {
             email = "test@email",
             judul = "Ayam",
             kategori = "Pembelian",
-            nominal = 10,
-            lokasi = "Bandung")
-        dao.insertData(transaction.email!!,transaction.judul!!,transaction.kategori!!,transaction.nominal!!,transaction.lokasi!!)
+            nominal = 10.0,
+            lokasi = "Bandung",
+            tanggal = "01/01/2000")
+        dao.insertData(transaction.email!!,transaction.judul!!,transaction.kategori!!,transaction.nominal!!,transaction.lokasi!!,transaction.tanggal!!)
         var list = dao.getTransaction("test@email")
         assert(list.isNotEmpty())
         dao.deleteData(list[0].id!!)
@@ -76,14 +78,14 @@ class DatabaseTest {
             email = "test@email",
             judul = "Ayam",
             kategori = "Pembelian",
-            nominal = 10,
-            lokasi = "Bandung")
-        dao.insertData(transaction.email!!,transaction.judul!!,transaction.kategori!!,transaction.nominal!!,transaction.lokasi!!)
+            nominal = 10.0,
+            lokasi = "Bandung",
+            tanggal = "01/01/2000")
+        dao.insertData(transaction.email!!,transaction.judul!!,transaction.kategori!!,transaction.nominal!!,transaction.lokasi!!, transaction.tanggal!!)
         var list = dao.getTransaction("test@email")
         assert(list.isNotEmpty())
         dao.updateData(list[0].id!!,
             "Bebek",
-            transaction.kategori!!,
             transaction.nominal!!,
             transaction.lokasi!!)
         list = dao.getTransaction("test@email")

@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTintMode="add"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             />
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -79,6 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:id="@+id/radiogrupkategori"
             >
             <RadioButton
                 android:id="@+id/pemasukan"
@@ -93,6 +94,14 @@
                 android:text="Pengeluaran"
                 />
         </RadioGroup>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:textSize="20sp"
+            android:visibility="gone"
+            android:id="@+id/buateditkategori"
+            />
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -146,6 +155,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Simpan"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/tombolhapus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hapus"
+            android:visibility="gone"/>
     </com.google.android.material.textfield.TextInputLayout>
 
 

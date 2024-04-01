@@ -11,7 +11,7 @@ data class Transaction (
     @ColumnInfo(name = "email") var email : String?,
     @ColumnInfo(name = "judul") var judul : String?,
     @ColumnInfo(name = "kategori") var kategori : String?,
-    @ColumnInfo(name = "nominal") var nominal : Int? = 0,
+    @ColumnInfo(name = "nominal") var nominal : Double? = 0.0,
     @ColumnInfo(name = "tanggal") var tanggal : String?,
     @ColumnInfo(name = "lokasi") var lokasi : String?
 )
