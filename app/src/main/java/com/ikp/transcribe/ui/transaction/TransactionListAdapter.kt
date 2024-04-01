@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ikp.transcribe.R
 import com.ikp.transcribe.data.table.Transaction
 
-class TransactionListAdapter() : ListAdapter<Transaction,TransactionListAdapter.ViewHolder>(TransactionDiffCallback()) {
+class TransactionListAdapter : ListAdapter<Transaction,TransactionListAdapter.ViewHolder>(TransactionDiffCallback()) {
     private lateinit var context : Context
     class ViewHolder(val row : View) : RecyclerView.ViewHolder(row){
         val transactionDate = row.findViewById<TextView>(R.id.transactionDate)
@@ -33,7 +33,6 @@ class TransactionListAdapter() : ListAdapter<Transaction,TransactionListAdapter.
         return holder
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        // TODO: add date
         holder.transactionDate.text = getItem(position).tanggal
         holder.transactionName.text = getItem(position).judul
         holder.transactionPrice.text = context.getString(R.string.nominal,getItem(position).nominal)
