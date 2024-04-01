@@ -12,10 +12,13 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.activityViewModels
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.ikp.transcribe.MainViewModel
 import com.ikp.transcribe.R
 import com.ikp.transcribe.data.AppDatabase
 import kotlinx.coroutines.CoroutineScope
@@ -27,11 +30,14 @@ import java.util.Locale
 
 class AddTransactionActivity : AppCompatActivity() {
     private lateinit var fused : FusedLocationProviderClient
+    private val mainViewModel : MainViewModel by viewModels()
 
 //    ----TODO Ganti Email-----
-    private val emailnow = "test@gmail.com"
+
+    private lateinit var emailnow : String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        emailnow = mainViewModel.getEmail()
         setContentView(R.layout.activity_add_transaction)
         fused = LocationServices.getFusedLocationProviderClient(this)
         val judul = findViewById<EditText>(R.id.judul)

@@ -23,6 +23,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private var token : String
     val transactions: StateFlow<List<Transaction>> = _transactions
 
+    fun getEmail() : String{
+        return email
+    }
     init {
         val sharedPreferences = application.getSharedPreferences("auth", Context.MODE_PRIVATE)
         email = sharedPreferences.getString("email", "email")!!

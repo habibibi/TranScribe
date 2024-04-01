@@ -6,7 +6,9 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,11 +16,26 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.activityViewModels
+import com.ikp.transcribe.MainViewModel
 import com.ikp.transcribe.R
+import com.ikp.transcribe.data.AppDatabase
+import com.ikp.transcribe.data.table.Transaction
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import com.ikp.transcribe.auth.data.AuthService
 import com.ikp.transcribe.auth.ui.LoginActivity
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
+import org.apache.poi.ss.usermodel.FillPatternType
+import org.apache.poi.ss.usermodel.HorizontalAlignment
+import org.apache.poi.ss.usermodel.IndexedColors
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import java.io.File
+import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -35,6 +52,7 @@ class SettingFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private val mainViewModel : MainViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,8 +67,10 @@ class SettingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_setting, container, false)
 
+        val emailnow = mainViewModel.getEmail()
+        val view = inflater.inflate(R.layout.fragment_setting, container, false)
+        val databasetransac = context?.let { AppDatabase.getInstance(it) }
         val simpantombol = view.findViewById<Button>(R.id.simpandaftartransaksi)
         val kirimtombol = view.findViewById<Button>(R.id.kirimdaftartransaksi)
         val keluar = view.findViewById<Button>(R.id.keluar)
@@ -65,11 +85,34 @@ class SettingFragment : Fragment() {
                 dialog.setTitle("Pilih tipe data")
                 dialog.setItems(R.array.tipe, DialogInterface.OnClickListener { dialog, which ->
                     if (which == 0) {
-//                    Todo simpan time xlsx
-                        println("simpan xlsx")
+                        val direktori = File(requireContext().getExternalFilesDir(null),"TransCribe")
+                        val timestampget = getTimestamp()
+                        val namafile = "Data_Transaksi_$timestampget"
+                        val filepath = File(direktori,"$namafile.xlsx").absolutePath
+                        CoroutineScope(Dispatchers.IO).launch {
+                            val dataambil = databasetransac?.TransactionDao()?.getTransaction(emailnow)
+                            if (dataambil != null) {
+                                createFileExcel(dataambil,filepath)
+                            }
+                            else{
+                                println("Gagal")
+                            }
+                        }
+
                     } else if (which == 1) {
-//                    Todo simpan time xlsx
-                        println("simpan xls")
+                        val direktori = File(requireContext().getExternalFilesDir(null),"TransCribe")
+                        val timestampget = getTimestamp()
+                        val namafile = "Data_Transaksi_$timestampget"
+                        val filepath = File(direktori,"$namafile.xls").absolutePath
+                        CoroutineScope(Dispatchers.IO).launch {
+                            val dataambil = databasetransac?.TransactionDao()?.getTransaction(emailnow)
+                            if (dataambil != null) {
+                                createFileExcel(dataambil,filepath)
+                            }
+                            else{
+                                println("Gagal")
+                            }
+                        }
                     } else {
                         dialog.dismiss()
                     }
@@ -86,12 +129,52 @@ class SettingFragment : Fragment() {
             dialog.setItems(R.array.tipe,DialogInterface.OnClickListener{
                     dialog, which ->
                 if(which==0){
-//                    Todo simpan time xlsx
-                    println("kirim xlsx")
+                    val direktori = File(requireContext().getExternalFilesDir(null),"TransCribe")
+                    val timestampget = getTimestamp()
+                    val namafile = "Data_Transaksi_$timestampget"
+                    val filepath = File(direktori,"$namafile.xlsx").absolutePath
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val dataambil = databasetransac?.TransactionDao()?.getTransaction(emailnow)
+                        if (dataambil != null) {
+                            createFileExcel(dataambil,filepath)
+                            val uriText = "mailto:$emailnow" +
+                                    "?subject=" + Uri.encode("Data Transaksi TransCribe") +
+                                    "&body=" + Uri.encode("Terlampir adalah data transaksi")
+
+                            val uri = Uri.parse(uriText)
+                            val emailIntent = Intent(Intent.ACTION_SENDTO,uri).apply {
+                                putExtra(Intent.EXTRA_STREAM, Uri.parse("file://$filepath"))
+                            }
+                            context?.startActivity(emailIntent)
+                        }
+                        else{
+                            println("Gagal")
+                        }
+                    }
                 }
                 else if(which==1){
-//                    Todo simpan time xlsx
-                    println("kirim xls")
+                    val direktori = File(requireContext().getExternalFilesDir(null),"TransCribe")
+                    val timestampget = getTimestamp()
+                    val namafile = "Data_Transaksi_$timestampget"
+                    val filepath = File(direktori,"$namafile.xls").absolutePath
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val dataambil = databasetransac?.TransactionDao()?.getTransaction(emailnow)
+                        if (dataambil != null) {
+                            createFileExcel(dataambil,filepath)
+                            val uriText = "mailto:$emailnow" +
+                                    "?subject=" + Uri.encode("Data Transaksi TransCribe") +
+                                    "&body=" + Uri.encode("Terlampir adalah data transaksi")
+
+                            val uri = Uri.parse(uriText)
+                            val emailIntent = Intent(Intent.ACTION_SENDTO,uri).apply {
+                                putExtra(Intent.EXTRA_STREAM, Uri.parse("file://$filepath"))
+                            }
+                            context?.startActivity(emailIntent)
+                        }
+                        else{
+                            println("Gagal")
+                        }
+                    }
                 }
                 else{
                     dialog.dismiss()
@@ -108,35 +191,113 @@ class SettingFragment : Fragment() {
 
         return view
     }
+    private fun createFileExcel(transactions: List<Transaction>, filePath: String){
+        val workbook = XSSFWorkbook()
+        val sheet = workbook.createSheet("Transactions")
 
-    private fun createFileXLS(){
-        var workbook = HSSFWorkbook()
-        var sheet = workbook.createSheet("Transaction")
+        // Styling for the header row
+        val headerStyle = workbook.createCellStyle().apply {
+            alignment = HorizontalAlignment.CENTER
+            fillForegroundColor = IndexedColors.GREY_25_PERCENT.index
+            fillPattern = FillPatternType.SOLID_FOREGROUND
+        }
 
+        // Create header row
+        val headerRow = sheet.createRow(0)
+        headerRow.createCell(0).apply {
+            setCellValue("ID")
+            cellStyle = headerStyle
+        }
+        headerRow.createCell(1).apply {
+            setCellValue("Email")
+            cellStyle = headerStyle
+        }
+        headerRow.createCell(2).apply {
+            setCellValue("Judul")
+            cellStyle = headerStyle
+        }
+        headerRow.createCell(3).apply {
+            setCellValue("Kategori")
+            cellStyle = headerStyle
+        }
+        headerRow.createCell(4).apply {
+            setCellValue("Nominal")
+            cellStyle = headerStyle
+        }
+        headerRow.createCell(5).apply {
+            setCellValue("Tanggal")
+            cellStyle = headerStyle
+        }
+        headerRow.createCell(6).apply {
+            setCellValue("Lokasi")
+            cellStyle = headerStyle
+        }
 
+        // Styling for data rows
+        val dataStyle = workbook.createCellStyle().apply {
+            alignment = HorizontalAlignment.LEFT
+        }
 
+        // Populate data rows
+        var rowNum = 1
+        for (transaction in transactions) {
+            val row = sheet.createRow(rowNum++)
+            row.createCell(0).apply {
+                setCellValue(transaction.id?.toDouble() ?: 0.0)
+                cellStyle = dataStyle
+            }
+            row.createCell(1).apply {
+                setCellValue(transaction.email ?: "")
+                cellStyle = dataStyle
+            }
+            row.createCell(2).apply {
+                setCellValue(transaction.judul ?: "")
+                cellStyle = dataStyle
+            }
+            row.createCell(3).apply {
+                setCellValue(transaction.kategori ?: "")
+                cellStyle = dataStyle
+            }
+            row.createCell(4).apply {
+                setCellValue(transaction.nominal?.toDouble() ?: 0.0)
+                cellStyle = dataStyle
+            }
+            row.createCell(5).apply {
+                setCellValue(transaction.tanggal ?: "")
+                cellStyle = dataStyle
+            }
+            row.createCell(6).apply {
+                setCellValue(transaction.lokasi ?: "")
+                cellStyle = dataStyle
+            }
+        }
 
+        // Write to file
+        val fileOut = FileOutputStream(filePath)
+        workbook.write(fileOut)
+        fileOut.close()
+        workbook.close()
     }
-    private fun createFileXLSX(){
-
-
-
-
+    private fun getTimestamp(): String {
+        val timeStampFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
+        val currentTime = Calendar.getInstance().time
+        return timeStampFormat.format(currentTime)
     }
+
 
     private fun createFolder(){
         val folder = File(requireContext().getExternalFilesDir(null),"TransCribe")
         if(!folder.exists()){
             val created = folder.mkdir()
             if(created) {
-                Toast.makeText(context, "Berhasil", Toast.LENGTH_SHORT).show()
+                println("Berhasil")
             }
             else{
-                Toast.makeText(context, "Gagal", Toast.LENGTH_SHORT).show()
+                println("Gagal")
             }
         }
         else{
-            Toast.makeText(context, "Dah ada",Toast.LENGTH_SHORT).show()
+            println("Dah ada")
         }
     }
 
