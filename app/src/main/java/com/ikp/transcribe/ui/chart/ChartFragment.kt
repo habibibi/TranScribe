@@ -1,19 +1,19 @@
 package com.ikp.transcribe.ui.chart
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.activityViewModels
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.PercentFormatter
+import com.ikp.transcribe.MainViewModel
 import com.ikp.transcribe.R
-import com.ikp.transcribe.data.AppDatabase
 import com.ikp.transcribe.databinding.FragmentChartBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,6 +31,7 @@ class ChartFragment : Fragment() {
     private var param2: String? = null
     private var _binding: FragmentChartBinding? = null
     private val binding get() = _binding!!
+    private val viewModel : MainViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,57 +53,52 @@ class ChartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sharedPreferences = requireContext().getSharedPreferences("auth", Context.MODE_PRIVATE)
-        val email = sharedPreferences.getString("email", null)
+        val total = viewModel.getTotal()
+        if (total == 0) {
+            binding.pieChart?.visibility = View.GONE
+            binding.pemasukan.text = getString(R.string.pemasukan_kosong)
+            binding.pengeluaran.text = getString(R.string.pengeluaran_kosong)
+        } else {
+            val income = viewModel.getIncome()
+            val expense = viewModel.getExpense()
 
-        var totalIncome = 0
-        var totalExpense = 0
-        var totalTransaction = 0
+            val pieEntries = ArrayList<PieEntry>()
+            val label = ""
+            val typeAmountMap: MutableMap<String, Int> = HashMap()
+            typeAmountMap["Pemasukan"] = income
+            typeAmountMap["Pengeluaran"] = expense
+            for (type in typeAmountMap.keys) {
+                pieEntries.add(PieEntry(typeAmountMap[type]!!.toFloat(), type))
+            }
 
-        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                val dao = AppDatabase.getInstance(requireContext()).TransactionDao()
-                val transactions = email?.let { dao.getTransaction(it) }
+            val colors = ArrayList<Int>()
+            colors.add(ContextCompat.getColor(requireContext(), R.color.pemasukan))
+            colors.add(ContextCompat.getColor(requireContext(), R.color.pengeluaran))
 
-                transactions?.let {
-                    for (transaction in it) {
-                        if (transaction.kategori == "Pemasukan") {
-                            totalIncome += transaction.nominal ?: 0
-                        } else if (transaction.kategori == "Pengeluaran") {
-                            totalExpense += transaction.nominal ?: 0
-                        }
-                        totalTransaction += transaction.nominal ?: 0
-                    }
-                }
+            val pieDataSet = PieDataSet(pieEntries, label)
+            pieDataSet.valueTextSize = 12f
+            pieDataSet.colors = colors
+            pieDataSet.sliceSpace = 3f
+            pieDataSet.valueTextColor = ContextCompat.getColor(requireContext(), R.color.white)
 
-                if (totalTransaction == -1) {
-                    binding.donutChart.visibility = View.GONE
-                    binding.pemasukan.text = getString(R.string.pemasukan_kosong)
-                    binding.pengeluaran.text = getString(R.string.pengeluaran_kosong)
-                } else {
-                    val colorPemasukan = ContextCompat.getColor(requireContext(), R.color.pemasukan)
-                    val colorPengeluaran = ContextCompat.getColor(requireContext(), R.color.pengeluaran)
-                    val animationDuration = 1000L
-                    val valuePemasukan = totalIncome.toFloat() / totalTransaction.toFloat() * 360f
-                    val valuePengeluaran = totalExpense.toFloat() / totalTransaction.toFloat() * 360f
-                    val donutSet = listOf(
-                        240f,
-                        120f
-                    )
+            val pieData = PieData(pieDataSet)
+            pieData.setDrawValues(true)
 
-                    binding.apply {
-                        donutChart.donutColors = intArrayOf(
-                            colorPemasukan,
-                            colorPengeluaran
-                        )
-                        donutChart.animation.duration = animationDuration
-                        donutChart.animate(donutSet)
-                        pemasukan.text = getString(R.string.pemasukan, totalIncome)
-                        pengeluaran.text = getString(R.string.pengeluaran, totalExpense)
-                    }
-                }
-            } catch (e: Exception) {
-                Log.e("ChartFragment", "Error fetching transactions: ${e.message}")
+            binding.apply {
+                pieChart?.setDrawEntryLabels(false)
+                pieChart?.setUsePercentValues(true)
+                pieData.setValueFormatter(PercentFormatter(pieChart))
+
+                pieChart?.description?.isEnabled = false
+                pieChart?.centerText = "Data Transaksi"
+                pieChart?.setCenterTextSize(12f)
+                pieChart?.holeRadius = 40f
+                pieChart?.transparentCircleRadius = 45f
+
+                pieChart?.setData(pieData)
+                pieChart?.invalidate()
+                pemasukan.text = getString(R.string.pemasukan, income)
+                pengeluaran.text = getString(R.string.pengeluaran, expense)
             }
         }
     }

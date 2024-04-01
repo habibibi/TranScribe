@@ -1,5 +1,7 @@
 package com.ikp.transcribe.ui.transaction
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.os.Bundle
@@ -27,13 +29,14 @@ import java.util.Locale
 
 class AddTransactionActivity : AppCompatActivity() {
     private lateinit var fused : FusedLocationProviderClient
-
-//    ----TODO Ganti Email-----
-    private val emailnow = "test@gmail.com"
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var email: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_transaction)
         fused = LocationServices.getFusedLocationProviderClient(this)
+        sharedPreferences = getSharedPreferences("auth", Context.MODE_PRIVATE)
+        email = sharedPreferences.getString("email", null)!!
         val judul = findViewById<EditText>(R.id.judul)
         val lokasi = findViewById<EditText>(R.id.lokasi)
         val nominal = findViewById<EditText>(R.id.nominal)
@@ -122,7 +125,7 @@ class AddTransactionActivity : AppCompatActivity() {
                     val tanggal = "$day/$month/$year"
                     CoroutineScope(Dispatchers.IO).launch {
                         databasetransac.TransactionDao().insertData(
-                            emailnow, judul.text.toString(),
+                            email, judul.text.toString(),
                             kategori, ubahnumber, lokasi.text.toString(), tanggal
                         )
                         finish()

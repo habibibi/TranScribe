@@ -31,4 +31,32 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
     }
+
+    fun getTotal(): Int {
+        var total = 0
+        for (transaction in transactions.value) {
+            total += transaction.nominal ?: 0
+        }
+        return total
+    }
+
+    fun getIncome(): Int {
+        var income = 0
+        for (transaction in transactions.value) {
+            if (transaction.kategori == "Pemasukan") {
+                income += transaction.nominal ?: 0
+            }
+        }
+        return income
+    }
+
+    fun getExpense(): Int {
+        var expense = 0
+        for (transaction in transactions.value) {
+            if (transaction.kategori == "Pengeluaran") {
+                expense += transaction.nominal ?: 0
+            }
+        }
+        return expense
+    }
 }

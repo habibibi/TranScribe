@@ -141,15 +141,16 @@ class SettingFragment : Fragment() {
     }
 
     private fun logout() {
-        val sharedPreferences = requireContext().getSharedPreferences("auth", Context.MODE_PRIVATE)
-        sharedPreferences.edit().remove("email").remove("token").apply()
-
         val authServiceIntent = Intent(requireContext(), AuthService::class.java)
         requireContext().stopService(authServiceIntent)
+
+        val sharedPreferences = requireContext().getSharedPreferences("auth", Context.MODE_PRIVATE)
+        sharedPreferences.edit().remove("email").remove("token").apply()
 
         val intent = Intent(requireContext(), LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
+
         val msg = getString(R.string.logout)
         Toast.makeText(requireActivity().applicationContext, msg, Toast.LENGTH_SHORT).show()
         requireActivity().finish()
