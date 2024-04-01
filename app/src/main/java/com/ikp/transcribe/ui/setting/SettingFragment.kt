@@ -16,6 +16,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.activityViewModels
+import com.ikp.transcribe.MainViewModel
 import com.ikp.transcribe.R
 import com.ikp.transcribe.data.AppDatabase
 import com.ikp.transcribe.data.table.Transaction
@@ -50,6 +52,7 @@ class SettingFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private val mainViewModel : MainViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +67,8 @@ class SettingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val emailnow = "13521159@std.stei.itb.ac.id"
+
+        val emailnow = mainViewModel.getEmail()
         val view = inflater.inflate(R.layout.fragment_setting, container, false)
         val databasetransac = context?.let { AppDatabase.getInstance(it) }
         val simpantombol = view.findViewById<Button>(R.id.simpandaftartransaksi)
@@ -182,7 +186,7 @@ class SettingFragment : Fragment() {
         }
 
         keluar.setOnClickListener {
-//            Todo Logout
+            logout()
         }
 
         return view
