@@ -47,20 +47,23 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="252dp"
-                android:background="@drawable/customborder">
+                android:background="@drawable/customborder"
+                android:layout_marginBottom="10dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/billItemList"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scrollbars="vertical"/>
+                    android:scrollbars="vertical"
+                    />
             </FrameLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/transactionNameTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/nama_transaksi">
+                android:hint="@string/nama_transaksi"
+                android:layout_marginBottom="10dp">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/transactionNameInput"
                     android:layout_width="match_parent"
@@ -74,7 +77,8 @@
                 android:id="@+id/categoryTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/kategori">
+                android:hint="@string/kategori"
+                android:layout_marginBottom="10dp">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/categoryValue"
                     android:layout_width="match_parent"
@@ -89,7 +93,8 @@
                 android:id="@+id/totalPriceTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/total_harga" >
+                android:hint="@string/total_harga"
+                android:layout_marginBottom="10dp">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/totalPriceValue"
                     android:layout_width="match_parent"
@@ -104,7 +109,8 @@
                 android:id="@+id/dateTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/tanggal_transaksi" >
+                android:hint="@string/tanggal_transaksi"
+                android:layout_marginBottom="10dp">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/dateValue"
                     android:layout_width="match_parent"
@@ -123,7 +129,8 @@
                 android:hint="@string/lokasi"
                 app:endIconMode="custom"
                 app:endIconDrawable="@drawable/baseline_location_pin_24"
-                app:endIconContentDescription="Dapatkan lokasi saat ini">
+                app:endIconContentDescription="Dapatkan lokasi saat ini"
+                android:layout_marginBottom="10dp">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/locationValue"
                     android:layout_width="match_parent"

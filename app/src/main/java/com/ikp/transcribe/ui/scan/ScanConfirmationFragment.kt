@@ -124,14 +124,17 @@ class ScanConfirmationFragment : Fragment() {
                 error = true
                 binding.transactionNameTextView.error = "Nama transaksi tidak boleh kosong."
             } else {
+                binding.transactionNameTextView.isErrorEnabled = false
                 binding.transactionNameTextView.error = null
+
             }
 
             if (binding.locationValue.text.toString().isBlank()){
                 error = true
                 binding.locationTextView.error = "Lokasi tidak boleh kosong."
             } else {
-                binding.transactionNameTextView.error = null
+                binding.locationTextView.isErrorEnabled = false
+                binding.locationTextView.error = null
             }
 
             if (!error) {
