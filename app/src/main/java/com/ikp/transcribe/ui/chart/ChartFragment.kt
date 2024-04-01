@@ -100,8 +100,8 @@ class ChartFragment : Fragment() {
 
                 val formattedIncome = DecimalFormat("#,###.##").format(income)
                 val formattedExpense = DecimalFormat("#,###.##").format(expense)
-                pemasukan.text = getString(R.string.pemasukan, formattedIncome)
-                pengeluaran.text = getString(R.string.pengeluaran, formattedExpense)
+                pemasukan.text = getString(R.string.pemasukan_chart, formattedIncome)
+                pengeluaran.text = getString(R.string.pengeluaran_chart, formattedExpense)
             }
         }
     }
