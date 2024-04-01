@@ -9,22 +9,21 @@ import kotlinx.coroutines.flow.Flow
 interface TransactionDao {
     @Query("SELECT * FROM `transaction` WHERE email LIKE :email")
     fun getTransaction(email:String): List<Transaction>
+
     @Query("SELECT * FROM `transaction` WHERE email LIKE :email")
     fun getFlowTransaction(email:String): Flow<List<Transaction>>
 
     @Query("INSERT INTO `transaction` (email,judul,kategori,nominal,lokasi,tanggal) " +
             "VALUES (:email,:judul,:kategori,:nominal,:lokasi,:tanggal)")
-    fun insertData(email:String,judul:String,kategori:String,nominal:Int,lokasi:String,tanggal:String)
+    fun insertData(email:String,judul:String,kategori:String,nominal:Double,lokasi:String,tanggal:String)
 
     @Query("DELETE FROM `transaction` WHERE id = :id")
     fun deleteData (id:Int)
 
     @Query("UPDATE `transaction` SET judul = :judul, nominal = :nominal, lokasi = :lokasi " +
             "WHERE id = :id")
-    fun updateData(id:Int,judul:String,nominal:Int,lokasi:String)
+    fun updateData(id:Int,judul:String,nominal:Double,lokasi:String)
 
     @Query("SELECT * FROM `transaction` WHERE id = :id")
     fun getTransacID(id:Int): Transaction
-
-
 }

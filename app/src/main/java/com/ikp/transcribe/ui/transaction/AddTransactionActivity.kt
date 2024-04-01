@@ -1,11 +1,9 @@
 package com.ikp.transcribe.ui.transaction
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Geocoder
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -13,11 +11,12 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.ikp.transcribe.MainViewModel
 import com.ikp.transcribe.R
 import com.ikp.transcribe.data.AppDatabase
 import kotlinx.coroutines.CoroutineScope
@@ -29,14 +28,14 @@ import java.util.Locale
 
 class AddTransactionActivity : AppCompatActivity() {
     private lateinit var fused : FusedLocationProviderClient
-    private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var email: String
+    private val mainViewModel : MainViewModel by viewModels()
+
+    private lateinit var emailnow : String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        emailnow = mainViewModel.getEmail()
         setContentView(R.layout.activity_add_transaction)
         fused = LocationServices.getFusedLocationProviderClient(this)
-        sharedPreferences = getSharedPreferences("auth", Context.MODE_PRIVATE)
-        email = sharedPreferences.getString("email", null)!!
         val judul = findViewById<EditText>(R.id.judul)
         val lokasi = findViewById<EditText>(R.id.lokasi)
         val nominal = findViewById<EditText>(R.id.nominal)
@@ -98,7 +97,7 @@ class AddTransactionActivity : AppCompatActivity() {
                 }
                 else{
                     CoroutineScope(Dispatchers.IO).launch {
-                        val ubahnumber = nominal.text.toString().toInt()
+                        val ubahnumber = nominal.text.toString().toDouble()
                         val idubah  = extraid.getInt("id",0)
                         databasetransac.TransactionDao().updateData(idubah,judul.text.toString(),ubahnumber,lokasi.text.toString())
                         finish()
@@ -117,7 +116,7 @@ class AddTransactionActivity : AppCompatActivity() {
                     Toast.makeText(applicationContext,"Silahkan isi semua data",Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    val ubahnumber = nominal.text.toString().toInt()
+                    val ubahnumber = nominal.text.toString().toDouble()
                     val calender = Calendar.getInstance()
                     val year = calender.get(Calendar.YEAR)
                     val month = calender.get(Calendar.MONTH) + 1
@@ -125,7 +124,7 @@ class AddTransactionActivity : AppCompatActivity() {
                     val tanggal = "$day/$month/$year"
                     CoroutineScope(Dispatchers.IO).launch {
                         databasetransac.TransactionDao().insertData(
-                            email, judul.text.toString(),
+                            emailnow, judul.text.toString(),
                             kategori, ubahnumber, lokasi.text.toString(), tanggal
                         )
                         finish()

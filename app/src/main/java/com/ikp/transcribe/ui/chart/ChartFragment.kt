@@ -14,6 +14,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter
 import com.ikp.transcribe.MainViewModel
 import com.ikp.transcribe.R
 import com.ikp.transcribe.databinding.FragmentChartBinding
+import java.text.DecimalFormat
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,7 +45,7 @@ class ChartFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentChartBinding.inflate(inflater, container, false)
         return binding.root
@@ -54,8 +55,8 @@ class ChartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val total = viewModel.getTotal()
-        if (total == 0) {
-            binding.pieChart?.visibility = View.GONE
+        if (total == 0.0) {
+            binding.pieChart.visibility = View.GONE
             binding.pemasukan.text = getString(R.string.pemasukan_kosong)
             binding.pengeluaran.text = getString(R.string.pengeluaran_kosong)
         } else {
@@ -64,7 +65,7 @@ class ChartFragment : Fragment() {
 
             val pieEntries = ArrayList<PieEntry>()
             val label = ""
-            val typeAmountMap: MutableMap<String, Int> = HashMap()
+            val typeAmountMap: MutableMap<String, Double> = HashMap()
             typeAmountMap["Pemasukan"] = income
             typeAmountMap["Pengeluaran"] = expense
             for (type in typeAmountMap.keys) {
@@ -85,20 +86,22 @@ class ChartFragment : Fragment() {
             pieData.setDrawValues(true)
 
             binding.apply {
-                pieChart?.setDrawEntryLabels(false)
-                pieChart?.setUsePercentValues(true)
+                pieChart.setDrawEntryLabels(false)
+                pieChart.setUsePercentValues(true)
                 pieData.setValueFormatter(PercentFormatter(pieChart))
 
-                pieChart?.description?.isEnabled = false
-                pieChart?.centerText = "Data Transaksi"
-                pieChart?.setCenterTextSize(12f)
-                pieChart?.holeRadius = 40f
-                pieChart?.transparentCircleRadius = 45f
+                pieChart.description.isEnabled = false
+                pieChart.centerText = "Data Transaksi"
+                pieChart.setCenterTextSize(12f)
+                pieChart.holeRadius = 40f
+                pieChart.transparentCircleRadius = 45f
+                pieChart.setData(pieData)
+                pieChart.invalidate()
 
-                pieChart?.setData(pieData)
-                pieChart?.invalidate()
-                pemasukan.text = getString(R.string.pemasukan, income)
-                pengeluaran.text = getString(R.string.pengeluaran, expense)
+                val formattedIncome = DecimalFormat("#,###.##").format(income)
+                val formattedExpense = DecimalFormat("#,###.##").format(expense)
+                pemasukan.text = getString(R.string.pemasukan, formattedIncome)
+                pengeluaran.text = getString(R.string.pengeluaran, formattedExpense)
             }
         }
     }

@@ -17,6 +17,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private var token : String
     val transactions: StateFlow<List<Transaction>> = _transactions
 
+    fun getEmail() : String{
+        return email
+    }
     init {
         val sharedPreferences = application.getSharedPreferences("auth", Context.MODE_PRIVATE)
         email = sharedPreferences.getString("email", "email")!!
@@ -32,29 +35,29 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun getTotal(): Int {
-        var total = 0
+    fun getTotal(): Double {
+        var total = 0.0
         for (transaction in transactions.value) {
-            total += transaction.nominal ?: 0
+            total += transaction.nominal ?: 0.0
         }
         return total
     }
 
-    fun getIncome(): Int {
-        var income = 0
+    fun getIncome(): Double {
+        var income = 0.0
         for (transaction in transactions.value) {
             if (transaction.kategori == "Pemasukan") {
-                income += transaction.nominal ?: 0
+                income += transaction.nominal ?: 0.0
             }
         }
         return income
     }
 
-    fun getExpense(): Int {
-        var expense = 0
+    fun getExpense(): Double {
+        var expense = 0.0
         for (transaction in transactions.value) {
             if (transaction.kategori == "Pengeluaran") {
-                expense += transaction.nominal ?: 0
+                expense += transaction.nominal ?: 0.0
             }
         }
         return expense

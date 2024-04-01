@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ikp.transcribe.MainViewModel
 import com.ikp.transcribe.data.AppDatabase
 import com.ikp.transcribe.databinding.FragmentTransactionBinding
 import kotlinx.coroutines.Dispatchers
@@ -31,6 +33,7 @@ class TransactionFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var _binding: FragmentTransactionBinding? = null
+    private val mainViewModel : MainViewModel by activityViewModels()
     private val binding get() = _binding!!
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +64,7 @@ class TransactionFragment : Fragment() {
         rv.adapter = adapter
         lifecycleScope.launch(Dispatchers.IO){
             val dao = AppDatabase.getInstance(requireContext()).TransactionDao()
-            val flow = dao.getFlowTransaction("test@gmail.com")
+            val flow = dao.getFlowTransaction(mainViewModel.getEmail())
             flow.collect(){list -> adapter.submitList(list)}
         }
 
@@ -72,7 +75,7 @@ class TransactionFragment : Fragment() {
         binding.deleteAllButton.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
                 val dao = AppDatabase.getInstance(requireContext()).TransactionDao()
-                val list = dao.getTransaction("test@gmail.com")
+                val list = dao.getTransaction(mainViewModel.getEmail())
                 for (t in list){
                     dao.deleteData(t.id!!)
                 }
