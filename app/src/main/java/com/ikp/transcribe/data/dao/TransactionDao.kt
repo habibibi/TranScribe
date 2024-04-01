@@ -14,14 +14,14 @@ interface TransactionDao {
 
     @Query("INSERT INTO `transaction` (email,judul,kategori,nominal,lokasi,tanggal) " +
             "VALUES (:email,:judul,:kategori,:nominal,:lokasi,:tanggal)")
-    suspend fun insertData(email:String,judul:String,kategori:String,nominal:Int,lokasi:String,tanggal:String)
+    suspend fun insertData(email:String,judul:String,kategori:String,nominal:Double,lokasi:String,tanggal:String)
 
     @Query("DELETE FROM `transaction` WHERE id = :id")
     suspend fun deleteData (id:Int)
 
     @Query("UPDATE `transaction` SET judul = :judul, nominal = :nominal, lokasi = :lokasi " +
             "WHERE id = :id")
-    suspend fun updateData(id:Int,judul:String,nominal:Int,lokasi:String)
+    suspend fun updateData(id:Int,judul:String,nominal:Double,lokasi:String)
 
     @Query("SELECT * FROM `transaction` WHERE id = :id")
     suspend fun getTransacID(id:Int): Transaction

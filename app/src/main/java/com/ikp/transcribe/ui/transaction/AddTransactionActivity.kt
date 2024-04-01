@@ -95,7 +95,7 @@ class AddTransactionActivity : AppCompatActivity() {
                 }
                 else{
                     CoroutineScope(Dispatchers.IO).launch {
-                        val ubahnumber = nominal.text.toString().toInt()
+                        val ubahnumber = nominal.text.toString().toDouble()
                         val idubah  = extraid.getInt("id",0)
                         databasetransac.TransactionDao().updateData(idubah,judul.text.toString(),ubahnumber,lokasi.text.toString())
                         finish()
@@ -114,7 +114,7 @@ class AddTransactionActivity : AppCompatActivity() {
                     Toast.makeText(applicationContext,"Silahkan isi semua data",Toast.LENGTH_SHORT).show()
                 }
                 else{
-                    val ubahnumber = nominal.text.toString().toInt()
+                    val ubahnumber = nominal.text.toString().toDouble()
                     val calender = Calendar.getInstance()
                     val year = calender.get(Calendar.YEAR)
                     val month = calender.get(Calendar.MONTH) + 1

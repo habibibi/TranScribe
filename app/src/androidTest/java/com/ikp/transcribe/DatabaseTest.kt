@@ -45,10 +45,10 @@ class DatabaseTest {
                 email = "test@email",
                 judul = "Ayam",
                 kategori = "Pembelian",
-                nominal = 10,
+                nominal = 10.0,
                 lokasi = "Bandung",
-                tanggal = "1 Januari 2024")
-        dao.insertData(transaction.email!!,transaction.judul!!,transaction.kategori!!,transaction.nominal!!,transaction.lokasi!!, transaction.tanggal!!)
+                tanggal = "01/01/2000")
+        dao.insertData(transaction.email!!,transaction.judul!!,transaction.kategori!!,transaction.nominal!!,transaction.lokasi!!,transaction.tanggal!!)
         val list = dao.getTransaction("test@email")
         assert(list.isNotEmpty())
         transaction.id = list[0].id
@@ -61,10 +61,10 @@ class DatabaseTest {
             email = "test@email",
             judul = "Ayam",
             kategori = "Pembelian",
-            nominal = 10,
+            nominal = 10.0,
             lokasi = "Bandung",
-            tanggal = "1 Januari 2024")
-        dao.insertData(transaction.email!!,transaction.judul!!,transaction.kategori!!,transaction.nominal!!,transaction.lokasi!!, transaction.tanggal!!)
+            tanggal = "01/01/2000")
+        dao.insertData(transaction.email!!,transaction.judul!!,transaction.kategori!!,transaction.nominal!!,transaction.lokasi!!,transaction.tanggal!!)
         var list = dao.getTransaction("test@email")
         assert(list.isNotEmpty())
         dao.deleteData(list[0].id!!)
@@ -78,9 +78,9 @@ class DatabaseTest {
             email = "test@email",
             judul = "Ayam",
             kategori = "Pembelian",
-            nominal = 10,
+            nominal = 10.0,
             lokasi = "Bandung",
-            tanggal = "1 Januari 2024")
+            tanggal = "01/01/2000")
         dao.insertData(transaction.email!!,transaction.judul!!,transaction.kategori!!,transaction.nominal!!,transaction.lokasi!!, transaction.tanggal!!)
         var list = dao.getTransaction("test@email")
         assert(list.isNotEmpty())
