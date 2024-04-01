@@ -50,4 +50,8 @@
     <string name="login_failed">"Gagal Login"</string>
     <string name="logout">Berhasil Logout</string>
     <string name="relogin">Sesi Anda telah berakhir. Silakan Login kembali.</string>
+    <string name="konfirmasi_simpan">Apakah Anda ingin menyimpan hasil scan ini?</string>
+    <string name="simpan">Simpan</string>
+    <string name="kembali">Kembali</string>
+    <string name="pengeluaran">Pengeluaran</string>
 </resources>

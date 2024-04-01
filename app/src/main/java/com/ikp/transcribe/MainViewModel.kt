@@ -8,6 +8,7 @@ import com.ikp.transcribe.data.AppDatabase
 import com.ikp.transcribe.data.model.Item
 import com.ikp.transcribe.data.repository.BillRepository
 import com.ikp.transcribe.data.table.Transaction
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -31,6 +32,18 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     suspend fun fetchBillItems(imageFile : File){
         billItems = billRepository.getBill(token, imageFile)
+    }
+
+    fun addTransaction(
+            email: String,
+            judul: String,
+            kategori: String,
+            nominal: Int,
+            lokasi: String,
+            tanggal: String){
+        viewModelScope.launch(Dispatchers.IO){
+        dao.insertData(email,judul,kategori,nominal,lokasi,tanggal)
+        }
     }
 
     fun getBillItems() : List<Item>{

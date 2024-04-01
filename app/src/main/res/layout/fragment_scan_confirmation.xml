@@ -1,134 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scanConfirmationMenu"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:paddingBottom="50dp"
+    android:scrollbarStyle="outsideOverlay"
     tools:context=".ui.scan.ScanConfirmationFragment">
 
-
-    <ScrollView
-        android:id="@+id/scanConfirmationMenu"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingBottom="50dp"
-        android:scrollbarStyle="outsideOverlay">
+        android:layout_height="wrap_content"
+        android:padding="10dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/simpan"
+            app:layout_constraintBaseline_toBaselineOf="@+id/button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/button" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/kembali"
+            app:layout_constraintEnd_toStartOf="@+id/button2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="10dp">
 
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Button"
-                app:layout_constraintBaseline_toBaselineOf="@+id/button"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/button" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="252dp"
+                android:background="@drawable/customborder">
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:text="Button"
-                app:layout_constraintEnd_toStartOf="@+id/button2"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/billItemList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical"/>
+            </FrameLayout>
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/transactionNameTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="10dp">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="252dp"
-                    android:layout_marginBottom="12dp"
-                    android:background="@drawable/customborder">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/billItemList"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
-                </FrameLayout>
-
-                <TextView
-                    android:id="@+id/transactionNameTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/nama_transaksi" />
-
-                <EditText
+                android:hint="@string/nama_transaksi">
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/transactionNameInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:inputType="text"
-                    android:text="@string/placeholder" />
+                    android:autofillHints="" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:id="@+id/categoryTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/kategori" />
-
-                <EditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/categoryTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/kategori">
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/categoryValue"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
-                    android:text="@string/placeholder" />
+                    android:text="@string/placeholder"
+                    android:autofillHints=""
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:id="@+id/totalPriceTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/total_harga" />
-
-                <EditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/totalPriceTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/total_harga" >
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/totalPriceValue"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
-                    android:text="@string/placeholder" />
+                    android:text="@string/placeholder"
+                    android:autofillHints=""
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:id="@+id/dateTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tanggal_transaksi" />
-
-                <EditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/dateTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/tanggal_transaksi" >
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/dateValue"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
-                    android:text="@string/placeholder" />
+                    android:text="@string/placeholder"
+                    android:autofillHints=""
+                    android:inputType="date"
+                    tools:ignore="TextFields" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:id="@+id/locationTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/lokasi" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/locationTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/lokasi"
+                app:endIconMode="custom"
+                app:endIconDrawable="@drawable/baseline_location_pin_24"
+                app:endIconContentDescription="Dapatkan lokasi saat ini">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/locationValue"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="true"
-                    android:text="@string/placeholder" />
+                    android:enabled="true" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            </LinearLayout>
+        </LinearLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
-</FrameLayout>
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/konfirmasi_simpan"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

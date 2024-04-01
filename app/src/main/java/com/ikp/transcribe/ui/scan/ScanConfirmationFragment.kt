@@ -11,7 +11,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ikp.transcribe.MainViewModel
+import com.ikp.transcribe.R
 import com.ikp.transcribe.databinding.FragmentScanConfirmationBinding
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -51,11 +56,26 @@ class ScanConfirmationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val billItems = viewModel.getBillItems()
         rv = binding.billItemList
-        rv.adapter = ItemListAdapter(viewModel.getBillItems())
+        rv.adapter = ItemListAdapter(billItems)
         val divider =  DividerItemDecoration(rv.context, LinearLayout.VERTICAL)
         rv.addItemDecoration(divider)
         rv.layoutManager = LinearLayoutManager(activity)
+
+        binding.categoryValue.setText(getString(R.string.pengeluaran))
+
+        val c: Date = Calendar.getInstance().time
+        val df = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val formattedDate: String = df.format(c)
+        binding.dateValue.setText(formattedDate)
+
+        var totalPrice  = 0.0
+        for (item in billItems){
+            totalPrice += item.quantity * item.price
+        }
+        binding.totalPriceValue.setText(requireContext().getString(R.string.nominaldesimal,totalPrice))
+
     }
 
     override fun onDestroy() {
