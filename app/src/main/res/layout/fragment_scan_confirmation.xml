@@ -16,22 +16,22 @@
         android:padding="10dp">
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/saveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/simpan"
-            app:layout_constraintBaseline_toBaselineOf="@+id/button"
+            app:layout_constraintBaseline_toBaselineOf="@+id/backButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/button" />
+            app:layout_constraintStart_toEndOf="@+id/backButton" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/backButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/kembali"
-            app:layout_constraintEnd_toStartOf="@+id/button2"
+            app:layout_constraintEnd_toStartOf="@+id/saveButton"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -124,7 +124,6 @@
                 app:endIconMode="custom"
                 app:endIconDrawable="@drawable/baseline_location_pin_24"
                 app:endIconContentDescription="Dapatkan lokasi saat ini">
-
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/locationValue"
                     android:layout_width="match_parent"

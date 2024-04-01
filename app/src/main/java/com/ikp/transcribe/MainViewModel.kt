@@ -41,11 +41,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             email: String,
             judul: String,
             kategori: String,
-            nominal: Int,
+            nominal: Double,
             lokasi: String,
             tanggal: String){
         viewModelScope.launch(Dispatchers.IO){
-        dao.insertData(email,judul,kategori,nominal,lokasi,tanggal)
+            dao.insertData(email,judul,kategori,nominal,lokasi,tanggal)
         }
     }
 

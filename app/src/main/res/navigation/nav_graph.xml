@@ -33,5 +33,11 @@
         android:id="@+id/scanConfirmationFragment"
         android:name="com.ikp.transcribe.ui.scan.ScanConfirmationFragment"
         android:label="Konfirmasi Gambar"
-        tools:layout="@layout/fragment_scan_confirmation" />
+        tools:layout="@layout/fragment_scan_confirmation" >
+        <action
+            android:id="@+id/action_scanConfirmationFragment_to_navigation_transaction"
+            app:destination="@id/navigation_transaction"
+            app:popUpTo="@id/navigation_scan"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

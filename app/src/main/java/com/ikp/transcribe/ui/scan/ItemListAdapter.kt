@@ -28,7 +28,7 @@ class ItemListAdapter(val data: List<Item>) : RecyclerView.Adapter<ItemListAdapt
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemName.text = data[position].name
         holder.itemQuantity.text = data[position].quantity.toString()
-        holder.itemPrice.text = context.getString(R.string.nominaldesimal,data[position].price)
+        holder.itemPrice.text = context.getString(R.string.nominal,data[position].price)
     }
 
     override fun getItemCount(): Int {

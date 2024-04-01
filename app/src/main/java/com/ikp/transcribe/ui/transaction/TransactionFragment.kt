@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ikp.transcribe.MainViewModel
+import com.ikp.transcribe.R
 import com.ikp.transcribe.data.AppDatabase
 import com.ikp.transcribe.databinding.FragmentTransactionBinding
 import kotlinx.coroutines.Dispatchers
@@ -58,7 +60,7 @@ class TransactionFragment : Fragment() {
         rv.layoutManager = LinearLayoutManager(activity)
 
         val divider =  DividerItemDecoration(rv.context, LinearLayout.VERTICAL)
-        divider.setDrawable(ResourcesCompat.getDrawable(resources,R.drawable.divider_transparent,null)!!)
+        divider.setDrawable(ResourcesCompat.getDrawable(resources, R.drawable.divider_transparent,null)!!)
         rv.addItemDecoration(divider)
 
         val adapter = TransactionListAdapter()

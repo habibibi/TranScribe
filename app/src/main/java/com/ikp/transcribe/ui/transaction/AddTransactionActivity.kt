@@ -1,12 +1,14 @@
 package com.ikp.transcribe.ui.transaction
 
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Geocoder
+import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -14,9 +16,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.activityViewModels
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.Task
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ikp.transcribe.MainViewModel
 import com.ikp.transcribe.R
@@ -71,7 +73,7 @@ class AddTransactionActivity : AppCompatActivity() {
             }
         }
         else{
-            getConnection()
+            checkPermissionAndUpdateLocation()
         }
 
         val back = findViewById<ImageView>(R.id.backicon)
@@ -92,7 +94,7 @@ class AddTransactionActivity : AppCompatActivity() {
         }
         val refresh = findViewById<FloatingActionButton>(R.id.tombolrefreshlokasi)
         refresh.setOnClickListener{
-            getConnection()
+            checkPermissionAndUpdateLocation()
         }
         simpan.setOnClickListener{
             if(extraid!=null){
@@ -137,13 +139,34 @@ class AddTransactionActivity : AppCompatActivity() {
             }
         }
     }
-    private fun getConnection(){
-        val task = fused.lastLocation
+    private fun checkPermissionAndUpdateLocation(){
         if(ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
             &&
             ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),101)
         }
+        updateLocation(fused.lastLocation)
+    }
+
+    @SuppressLint("MissingPermission")
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 101){
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(this,android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                updateLocation(fused.lastLocation)
+            } else {
+                val locationButton = findViewById<ImageButton>(R.id.tombolrefreshlokasi)
+                locationButton.isEnabled = false
+            }
+        }
+    }
+
+    private fun updateLocation(task : Task<Location>){
         task.addOnSuccessListener{
             if(it!=null){
                 val lokasi = findViewById<EditText>(R.id.lokasi)
@@ -153,6 +176,5 @@ class AddTransactionActivity : AppCompatActivity() {
                 lokasi.setText(alamatasli)
             }
         }
-
     }
 }
