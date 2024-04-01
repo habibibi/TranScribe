@@ -4,7 +4,6 @@ import android.content.pm.PackageManager
 import android.location.Geocoder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -14,7 +13,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.activityViewModels
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -31,8 +29,6 @@ import java.util.Locale
 class AddTransactionActivity : AppCompatActivity() {
     private lateinit var fused : FusedLocationProviderClient
     private val mainViewModel : MainViewModel by viewModels()
-
-//    ----TODO Ganti Email-----
 
     private lateinit var emailnow : String
     override fun onCreate(savedInstanceState: Bundle?) {

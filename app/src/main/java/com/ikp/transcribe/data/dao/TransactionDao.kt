@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 interface TransactionDao {
     @Query("SELECT * FROM `transaction` WHERE email LIKE :email")
     suspend fun getTransaction(email:String): List<Transaction>
+
     @Query("SELECT * FROM `transaction` WHERE email LIKE :email")
     fun getFlowTransaction(email:String): Flow<List<Transaction>>
 
@@ -25,6 +26,4 @@ interface TransactionDao {
 
     @Query("SELECT * FROM `transaction` WHERE id = :id")
     suspend fun getTransacID(id:Int): Transaction
-
-
 }
