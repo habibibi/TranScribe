@@ -54,20 +54,41 @@ class AddTransactionActivity : AppCompatActivity() {
 
         val extraid = intent.extras
         if(extraid!=null){
-            val id = extraid.getInt("id",0)
+            val id = extraid.getInt("id",-1)
+            val random = extraid.getString("random")
+            println(random)
             println(id)
-            CoroutineScope(Dispatchers.IO).launch {
-                val user = databasetransac.TransactionDao().getTransacID(id)
-                println(user)
-                withContext(Dispatchers.Main){
-                    judul.setText(user.judul)
-                    lokasi.setText(user.lokasi)
-                    nominal.setText(user.nominal.toString())
-                    radiogrupkategori.visibility = RadioGroup.GONE
-                    buatkategoriedit.visibility = TextView.VISIBLE
-                    tombolhapus.visibility = Button.VISIBLE
-                    buatkategoriedit.text = user.kategori
+            if(id!=-1) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val user = databasetransac.TransactionDao().getTransacID(id)
+                    println(user)
+                    withContext(Dispatchers.Main) {
+                        judul.setText(user.judul)
+                        lokasi.setText(user.lokasi)
+                        nominal.setText(user.nominal.toString())
+                        radiogrupkategori.visibility = RadioGroup.GONE
+                        buatkategoriedit.visibility = TextView.VISIBLE
+                        tombolhapus.visibility = Button.VISIBLE
+                        buatkategoriedit.text = user.kategori
+                    }
                 }
+            }
+            else if(id==-1 && random=="true" ){
+                getConnection()
+                val random = (1000..10000).random()
+                val randomstuff = (0..40).random()
+                val stuffNames = arrayOf(
+                    "Chair", "Table", "Lamp", "Bookshelf", "Couch",
+                    "Desk", "Mirror", "Rug", "Plant", "Clock",
+                    "Sofa", "Drawer", "Vase", "Bed", "Painting",
+                    "Fridge", "Microwave", "Oven", "Dishwasher", "Washing Machine",
+                    "Dryer", "Toaster", "Kettle", "Blender", "Vacuum Cleaner",
+                    "Iron", "Fan", "Air Purifier", "Speaker", "Television",
+                    "Computer", "Printer", "Scanner", "Camera", "Phone",
+                    "Tablet", "Router", "Keyboard", "Mouse", "Headphones"
+                )
+                judul.setText(stuffNames[randomstuff])
+                nominal.setText(random.toString())
             }
         }
         else{
@@ -95,7 +116,7 @@ class AddTransactionActivity : AppCompatActivity() {
             checkPermissionAndUpdateLocation()
         }
         simpan.setOnClickListener{
-            if(extraid!=null){
+            if(extraid!=null && extraid.getInt("id",-1)!=-1){
                 if(judul.text.isEmpty() || nominal.text.isEmpty() || lokasi.text.isEmpty()){
                     Toast.makeText(applicationContext,"Silahkan isi semua data",Toast.LENGTH_SHORT).show()
                 }
