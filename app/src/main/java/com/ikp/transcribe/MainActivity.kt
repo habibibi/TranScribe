@@ -1,6 +1,7 @@
 package com.ikp.transcribe
 
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,10 +12,12 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ikp.transcribe.auth.data.AuthService
 import com.ikp.transcribe.databinding.ActivityMainBinding
+import com.ikp.transcribe.ui.transaction.ReceiverBroadcastTransac
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val mainViewModel : MainViewModel by viewModels()
+    private val receiver = ReceiverBroadcastTransac()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,4 +37,16 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
         bottomNav.setupWithNavController(navController)
     }
+
+    override fun onResume() {
+        super.onResume()
+        val filter = IntentFilter("com.ikp.broadcastSendMessage")
+        registerReceiver(receiver, filter)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(receiver)
+    }
+
 }
