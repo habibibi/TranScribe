@@ -8,7 +8,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -26,7 +25,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import com.ikp.transcribe.auth.data.AuthService
 import com.ikp.transcribe.auth.ui.LoginActivity
-import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import org.apache.poi.ss.usermodel.FillPatternType
 import org.apache.poi.ss.usermodel.HorizontalAlignment
 import org.apache.poi.ss.usermodel.IndexedColors
@@ -308,15 +306,16 @@ class SettingFragment : Fragment() {
     }
 
     private fun logout() {
-        val sharedPreferences = requireContext().getSharedPreferences("auth", Context.MODE_PRIVATE)
-        sharedPreferences.edit().remove("email").remove("token").apply()
-
         val authServiceIntent = Intent(requireContext(), AuthService::class.java)
         requireContext().stopService(authServiceIntent)
+
+        val sharedPreferences = requireContext().getSharedPreferences("auth", Context.MODE_PRIVATE)
+        sharedPreferences.edit().remove("email").remove("token").apply()
 
         val intent = Intent(requireContext(), LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
+
         val msg = getString(R.string.logout)
         Toast.makeText(requireActivity().applicationContext, msg, Toast.LENGTH_SHORT).show()
         requireActivity().finish()

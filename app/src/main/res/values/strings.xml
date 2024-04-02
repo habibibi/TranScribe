@@ -29,10 +29,32 @@
     <string name="prompt_password">Password</string>
     <string name="action_login">Login</string>
     <string name="action_login_short">Login</string>
+    <string name="open_image_desc">Open Image</string>
+    <string name="capture_image_desc">Capture Image</string>
+    <string name="camera_permission_required">Camera permission required</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="image_preview">Image Preview</string>
+    <string name="nama_transaksi">Nama Transaksi</string>
+    <string name="kategori">Kategori</string>
+    <string name="total_harga">Total harga</string>
+    <string name="tanggal_transaksi">Tanggal transaksi</string>
+    <string name="lokasi">Lokasi</string>
+    <string name="nama">Nama</string>
+    <string name="kuantitas">Kuantitas</string>
+    <string name="harga">Harga</string>
     <string name="welcome">"Berhasil Login"</string>
     <string name="invalid_email">Email tidak valid</string>
     <string name="invalid_password">Password tidak valid</string>
     <string name="login_failed">"Gagal Login"</string>
     <string name="logout">Berhasil Logout</string>
     <string name="relogin">Sesi Anda telah berakhir. Silakan Login kembali.</string>
+    <string name="konfirmasi_simpan">Apakah Anda ingin menyimpan hasil scan ini?</string>
+    <string name="simpan">Simpan</string>
+    <string name="kembali">Kembali</string>
+    <string name="pengeluaran">Pengeluaran</string>
+    <string name="pemasukan_chart">Pemasukan: Rp.%1$s</string>
+    <string name="pengeluaran_chart">Pengeluaran: Rp.%1$s</string>
+    <string name="pemasukan_kosong">Belum ada pemasukan</string>
+    <string name="pengeluaran_kosong">Belum ada pengeluaran</string>
 </resources>
