@@ -1,6 +1,5 @@
 package com.ikp.transcribe.data.repository
 
-import android.util.Log
 import com.ikp.transcribe.data.model.Item
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -39,16 +38,10 @@ class BillRepository{
                 tmp,
                 filePart
             )
-            if (response.isSuccessful) {
-                return response.body()!!.items.items
-            } else {
-                // Handle HTTP error response
-                Log.e("bill", "HTTP Error: ${response.code()}")
-            }
+            if (response.code() != 200) throw Exception(Throwable("HTTP error"))
+            return response.body()!!.items.items
         } catch (e: Exception) {
-            // Handle network or other errors
-            Log.e("bill", "Error: ${e.message}", e)
+            throw e
         }
-        return emptyList()
     }
 }

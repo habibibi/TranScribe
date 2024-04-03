@@ -2,6 +2,7 @@ package com.ikp.transcribe
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.ikp.transcribe.data.AppDatabase
@@ -13,6 +14,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.io.File
+import java.net.ConnectException
+import java.net.UnknownHostException
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val dao = AppDatabase.getInstance(application).TransactionDao()
@@ -33,8 +36,22 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         fetchDataFromDao(email)
     }
 
-    suspend fun fetchBillItems(imageFile : File){
-        billItems = billRepository.getBill(token, imageFile)
+    suspend fun fetchBillItems(imageFile : File) : Error? {
+        return try {
+            billItems = billRepository.getBill(token, imageFile)
+            null
+        } catch (e : UnknownHostException) {
+            Error("Network error.")
+        } catch (e : ConnectException){
+            Error("Network error")
+        } catch (e : Exception){
+            if (e.cause?.message == "httpError"){
+                Error("Http error.")
+            } else {
+                Log.e("fetchBill", e::class.toString())
+                Error("Unknown error.")
+            }
+        }
     }
 
     fun addTransaction(
