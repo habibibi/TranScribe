@@ -74,7 +74,7 @@ class AddTransactionActivity : AppCompatActivity() {
                 }
             }
             else if(id==-1 && random=="true" ){
-                getConnection()
+                checkPermissionAndUpdateLocation()
                 val random = (1000..10000).random()
                 val randomstuff = (0..40).random()
                 val stuffNames = arrayOf(

@@ -3,6 +3,7 @@ package com.ikp.transcribe
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
