@@ -5,7 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@drawable/background_land"
     tools:context=".auth.ui.LoginActivity">
 
     <RelativeLayout
@@ -17,7 +17,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:gravity="center"
         android:layout_above="@+id/card_view" >
 
@@ -27,7 +27,7 @@
             android:text="TranScribe"
             android:textStyle="bold"
             android:fontFamily="sans-serif-medium"
-            android:textSize="32sp"
+            android:textSize="24sp"
             android:textColor="@color/white" />
     </LinearLayout>
 
@@ -37,8 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="-25dp"
-        app:cardCornerRadius="28dp"
-        tools:ignore="VisualLintBounds">
+        app:cardCornerRadius="28dp" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:text="Welcome"
                 android:textColor="#43A047"
-                android:textSize="32sp"
+                android:textSize="24sp"
                 android:textStyle="bold"
                 android:layout_gravity="center"
                 android:gravity="center" />
@@ -59,15 +58,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:alpha="0.7"
-                android:text="Silakan login menggunakan email dan password Anda"
-                android:textColor="#757575"
                 android:layout_gravity="center"
-                android:gravity="center" />
+                android:alpha="0.7"
+                android:gravity="center"
+                android:text="Silakan login menggunakan email dan password Anda"
+                android:textColor="#757575" />
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="30dp" />
             <EditText
                 android:id="@+id/email"
                 android:layout_width="match_parent"
@@ -80,9 +76,6 @@
                 android:selectAllOnFocus="true"
                 tools:ignore="VisualLintTextFieldSize" />
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="20dp" />
             <EditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
@@ -97,9 +90,6 @@
                 android:selectAllOnFocus="true"
                 tools:ignore="VisualLintTextFieldSize" />
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="10dp" />
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/login"
                 android:layout_width="match_parent"
@@ -114,8 +104,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:visibility="gone" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>

@@ -39,6 +39,7 @@
 
         </activity>
         <activity
+            android:windowSoftInputMode="adjustResize"
             android:name=".auth.ui.LoginActivity"
             android:exported="true">
             <intent-filter>
