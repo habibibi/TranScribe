@@ -72,6 +72,7 @@ class SettingFragment : Fragment() {
         val simpantombol = view.findViewById<Button>(R.id.simpandaftartransaksi)
         val kirimtombol = view.findViewById<Button>(R.id.kirimdaftartransaksi)
         val keluar = view.findViewById<Button>(R.id.keluar)
+        val randomize = view.findViewById<Button>(R.id.randomize)
 
         simpantombol.setOnClickListener {
             if(context?.let { ActivityCompat.checkSelfPermission(it,android.Manifest.permission.WRITE_EXTERNAL_STORAGE) } != PackageManager.PERMISSION_GRANTED){
@@ -185,6 +186,11 @@ class SettingFragment : Fragment() {
 
         keluar.setOnClickListener {
             logout()
+        }
+
+        randomize.setOnClickListener {
+            val intentsend = Intent().setAction("com.ikp.broadcastSendMessage")
+            context?.sendBroadcast(intentsend)
         }
 
         return view
@@ -314,6 +320,7 @@ class SettingFragment : Fragment() {
         Toast.makeText(requireActivity().applicationContext, msg, Toast.LENGTH_SHORT).show()
         requireActivity().finish()
     }
+
 
 
     companion object {

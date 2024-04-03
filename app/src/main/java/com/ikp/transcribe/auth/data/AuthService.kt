@@ -36,7 +36,7 @@ class AuthService : Service() {
     }
 
     override fun onDestroy() {
-        coroutineScope.cancel()
+        if(this::coroutineScope.isInitialized) coroutineScope.cancel()
         super.onDestroy()
     }
 
