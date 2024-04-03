@@ -6,4 +6,7 @@
     <color name="background">#FFFFFFFF</color>
     <color name="pemasukan">#50B432</color>
     <color name="pengeluaran">#ED561B</color>
+
+    <color name="my_primary">#4CAF50</color>
+    <color name="my_secondary">#388E3C</color>
 </resources>
