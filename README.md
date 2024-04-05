@@ -1,93 +1,94 @@
 # IF3210-2024-Android-IKP
 
+K2 - Kelompok IKP
 
+- 13521118 Ahmad Ghulam Ilham
+- 13521159 Sulthan Dzaky Alfaro
+- 13521169 Muhammad Habibi Husni
 
-## Getting started
+## Deskripsi aplikasi
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Aplikasi yang kami buat merupakan aplikasi manajemen keuangan yang dibuat untuk melakukan pengelolaan transaksi. Fitur yang ada pada aplikasi ini adalah penambahan, pengubahan, dan penghapusan transaksi, daftar transaksi lengkap, scan nota, grafik rangkuman transaksi, ekspor transaksi ke spreadsheet, serta pengiriman file transaksi melalui email. Selain itu terdapat fitur keamanan, seperti deteksi sinyal internet dan service latar belakang untuk memeriksa kevalidan token login.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Library yang digunakan
 
-## Add your files
+Aplikasi diimplementasikan dengan bahasa Kotlin.
+Berikut adalah library yang digunakan
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+    "androidx.core:core-ktx:1.12.0"
+    "androidx.appcompat:appcompat:1.6.1"
+    "com.google.android.material:material:1.11.0"
+    "androidx.constraintlayout:constraintlayout:2.1.4"
+    "androidx.navigation:navigation-ui-ktx:2.7.7"
+    "androidx.navigation:navigation-fragment-ktx:2.7.7"
+    "androidx.navigation:navigation-dynamic-features-fragment:2.7.7"
+    "androidx.cardview:cardview:1.0.0"
+    "androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0"
+    "com.github.PhilJay:MPAndroidChart:v3.1.0"
+    "com.squareup.retrofit2:retrofit:2.9.0"
+    "com.squareup.retrofit2:converter-moshi:2.9.0"
+    "com.squareup.moshi:moshi:1.12.0"
+    "com.squareup.moshi:moshi-kotlin:1.12.0"
+    "androidx.annotation:annotation:1.7.1"
+    "androidx.core:core-splashscreen:1.0.1"
+    "androidx.lifecycle:lifecycle-livedata-ktx:2.7.0"
+    "androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0"
+    "androidx.room:room-runtime:2.6.1"
+    "com.google.android.gms:play-services-location:21.2.0"
+    "org.apache.poi:poi:5.2.5"
+    "org.apache.poi:poi-ooxml:5.2.5"
+    "androidx.room:room-ktx:2.6.1"
+    "androidx.fragment:fragment-ktx:1.6.2"
+    "junit:junit:4.13.2"
+    "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3"
+    "androidx.test.ext:junit:1.1.5"
+    "androidx.test.espresso:espresso-core:3.5.1"
+    "androidx.navigation:navigation-testing:2.7.7"
+    "androidx.room:room-compiler:2.6.1"
+    "androidx.room:room-compiler:2.6.1"
+    "androidx.camera:camera-camera2:1.4.0-alpha04"
+    "androidx.camera:camera-view:1.4.0-alpha04"
 
-```
-cd existing_repo
-git remote add origin https://gitlab.informatika.org/habibibi/if3210-2024-android-ikp.git
-git branch -M main
-git push -uf origin main
-```
+## Screenshot aplikasi (dimasukkan dalam folder screenshot)
 
-## Integrate with your tools
+### Login
 
-- [ ] [Set up project integrations](https://gitlab.informatika.org/habibibi/if3210-2024-android-ikp/-/settings/integrations)
+[](url)
 
-## Collaborate with your team
+### Transaksi
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+![Transaksi](screenshot/transaksi.jpg)
 
-## Test and Deploy
+![Tambah Transaksi](screenshot/transaksi-tambah.jpg)
 
-Use the built-in continuous integration in GitLab.
+![Edit Transaksi](screenshot/transaksi-edit.jpg)
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+### Graf
 
-***
+![Graf](screenshot/graph.jpg)
 
-# Editing this README
+![Graf Landscape](screenshot/graph-landscape.jpg)
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+### Pengaturan
 
-## Suggestions for a good README
+![Pengaturan](screenshot/setting.jpg)
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+## Pembagian kerja anggota kelompok
 
-## Name
-Choose a self-explaining name for your project.
+| NIM       | Nama                          | Pekerjaan           |
+|-----------|-------------------------------|---------------------|
+| 13521118  | Ahmad Ghulam Ilham        |  Login, Logout, JWT Service, Graph|
+| 13521159  | Sulthan Dzaky Alfaro  | CRUD Transaksi, Intent Lokasi, Broadcast Receiver, Simpan Transaksi,Intent Gmail |
+| 13521169  | Muhammad Habibi Husni  | Header-Navbar,Daftar Transaksi,Scanner, Network Sensing|
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+## Jumlah jam persiapan dan pengerjaan untuk masing-masing anggota
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+- 13521118 Ahmad Ghulam Ilham
+    - Persiapan : 12 jam
+    - Pengerjaan : 24 jam
+- 13521159 Sulthan Dzaky Alfaro
+    - Persiapan : 12 jam
+    - Pengerjaan : 24 jam
+- 13521169 Muhammad Habibi Husni
+    - Persiapan : 14 jam
+    - Pengerjaan : 24 jam
