@@ -160,6 +160,11 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        connectivityManager.unregisterNetworkCallback(networkCallback)
+    }
 }
 
 fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
