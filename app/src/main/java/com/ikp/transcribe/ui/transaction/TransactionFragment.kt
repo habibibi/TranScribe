@@ -74,16 +74,6 @@ class TransactionFragment : Fragment() {
         binding.addButton.setOnClickListener {
             startActivity(Intent(context,AddTransactionActivity::class.java))
         }
-        // TODO: remove if testing not needed
-        binding.deleteAllButton.setOnClickListener {
-            lifecycleScope.launch(Dispatchers.IO) {
-                val dao = AppDatabase.getInstance(requireContext()).TransactionDao()
-                val list = dao.getTransaction(mainViewModel.getEmail())
-                for (t in list){
-                    dao.deleteData(t.id!!)
-                }
-            }
-        }
     }
 
     override fun onDestroyView() {

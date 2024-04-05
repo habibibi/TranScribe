@@ -220,12 +220,6 @@ class ScanFragment : Fragment() {
         hideCamera()
     }
 
-    override fun onPause() {
-        super.onPause()
-        stopCamera()
-
-    }
-
     companion object {
         /**
          * Use this factory method to create a new instance of

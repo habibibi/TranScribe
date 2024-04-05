@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.transaction.AddTransactionActivity"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".ui.transaction.AddTransactionActivity">
     <include layout= "@layout/toolbar"/>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -114,34 +115,37 @@
             />
     </com.google.android.material.textfield.TextInputLayout>
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingEnd="10dp"
+        android:clipToPadding="false">
+
         <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:padding="10dp"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
+
             <EditText
                 android:id="@+id/lokasi"
-                android:layout_width="320dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTintMode="add"
-                android:inputType="text"
-
-                />
+                android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
             android:id="@+id/tombolrefreshlokasi"
-            android:src="@drawable/baseline_location_pin_24"
-            />
-
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/baseline_location_pin_24"
+            app:tint="@color/white"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/my_primary"/>
     </LinearLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
