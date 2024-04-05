@@ -65,7 +65,7 @@ dependencies {
     implementation("org.apache.poi:poi:5.2.5")
     implementation("org.apache.poi:poi-ooxml:5.2.5")
     implementation("androidx.room:room-ktx:2.6.1")
-    implementation("androidx.fragment:fragment-ktx:1.5.6")
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

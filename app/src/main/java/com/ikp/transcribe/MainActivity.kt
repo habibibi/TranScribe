@@ -4,7 +4,9 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.ConnectivityManager.NetworkCallback
 import android.net.Network
+import android.content.IntentFilter
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,11 +17,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.ikp.transcribe.auth.data.AuthService
 import com.ikp.transcribe.databinding.ActivityMainBinding
+import com.ikp.transcribe.ui.transaction.ReceiverBroadcastTransac
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private val mainViewModel : MainViewModel by viewModels()
+    private val receiver = ReceiverBroadcastTransac()
     private lateinit var connectivityManager : ConnectivityManager
     private lateinit var networkStatusLiveData : MutableLiveData<Boolean>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val authServiceIntent = Intent(this, AuthService::class.java)
@@ -63,10 +69,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        connectivityManager.unregisterNetworkCallback(networkCallback)
-    }
     fun getNetworkStatusLiveData(): LiveData<Boolean> {
         return networkStatusLiveData
     }
@@ -80,4 +82,17 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.setupWithNavController(navController, appBarConfiguration)
         bottomNav.setupWithNavController(navController)
     }
+
+    override fun onResume() {
+        super.onResume()
+        val filter = IntentFilter("com.ikp.broadcastSendMessage")
+        registerReceiver(receiver, filter)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(receiver)
+        connectivityManager.unregisterNetworkCallback(networkCallback)
+    }
+
 }
