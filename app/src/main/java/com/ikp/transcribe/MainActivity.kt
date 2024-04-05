@@ -53,7 +53,8 @@ class MainActivity : AppCompatActivity() {
         val authServiceIntent = Intent(this, AuthService::class.java)
         if (networkStatusLiveData.value == false) {
             startService(authServiceIntent)
-            Snackbar.make(binding.bottomNavigation, "Koneksi tersambung kembali.", Snackbar.LENGTH_LONG)
+            Snackbar.make(binding.bottomNavigation,
+                getString(R.string.reconnected_alert), Snackbar.LENGTH_LONG)
                 .setAnchorView(binding.bottomNavigation).show()
             networkStatusLiveData.postValue(true)
         }
@@ -63,7 +64,8 @@ class MainActivity : AppCompatActivity() {
         val authServiceIntent = Intent(this, AuthService::class.java)
         if (networkStatusLiveData.value == true){
             stopService(authServiceIntent)
-            Snackbar.make(binding.bottomNavigation, "Koneksi terputus. Beberapa fitur dimatikan.", Snackbar.LENGTH_LONG)
+            Snackbar.make(binding.bottomNavigation,
+                getString(R.string.lost_connection_alert), Snackbar.LENGTH_LONG)
                 .setAnchorView(binding.bottomNavigation).show()
             networkStatusLiveData.postValue(false)
         }
