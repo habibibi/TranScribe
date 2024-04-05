@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -17,8 +18,10 @@ import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import com.ikp.transcribe.MainActivity
 import com.ikp.transcribe.MainViewModel
 import com.ikp.transcribe.R
 import com.ikp.transcribe.databinding.FragmentScanBinding
@@ -44,6 +47,9 @@ class ScanFragment : Fragment() {
     private var param2: String? = null
     private var _binding: FragmentScanBinding? = null
     private val viewModel : MainViewModel by activityViewModels()
+    private var isCameraStarted = true
+    private lateinit var cameraController : LifecycleCameraController
+    private lateinit var previewView: PreviewView
 
     private val binding get() = _binding!!
 
@@ -63,8 +69,17 @@ class ScanFragment : Fragment() {
             }
     }
 
-    private lateinit var previewView: PreviewView
-    private lateinit var cameraController: LifecycleCameraController
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                startCamera()
+            } else {
+                hideCamera()
+                binding.cameraTextView.text = getString(R.string.camera_permission_required)
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,31 +101,51 @@ class ScanFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         previewView = binding.scannerCameraView
         hideCamera()
-        val requestPermissionLauncher =
-            registerForActivityResult(
-                ActivityResultContracts.RequestPermission()
-            ) { isGranted: Boolean ->
-                if (isGranted) startCamera()
-            }
 
-        when {
-            ContextCompat.checkSelfPermission(
-                requireContext(),
-                android.Manifest.permission.CAMERA) ==
-                    PackageManager.PERMISSION_GRANTED -> {
-                        startCamera()
-
-                    }
-            else ->{
-                requestPermissionLauncher.launch(android.Manifest.permission.CAMERA)
-            }
-        }
         binding.captureButton.setOnClickListener {
             capture()
         }
         binding.openImageButton.setOnClickListener{
             chooseImage()
         }
+
+        val activity = requireActivity() as MainActivity
+        val isConnected = activity.getNetworkStatusLiveData().value == true
+        if (isConnected){
+            onActiveNetwork()
+        } else {
+            onLostNetwork()
+        }
+
+        activity.getNetworkStatusLiveData().observe(viewLifecycleOwner, object : Observer<Boolean>{
+            override fun onChanged(value: Boolean) {
+                if (value){
+                    onActiveNetwork()
+                } else {
+                    onLostNetwork()
+                }
+            }
+        })
+    }
+
+    private fun onActiveNetwork(){
+        binding.openImageButton.isEnabled = true
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                android.Manifest.permission.CAMERA
+            ) ==
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            startCamera()
+        } else {
+            requestPermissionLauncher.launch(android.Manifest.permission.CAMERA)
+        }
+    }
+
+    private fun onLostNetwork(){
+        stopCamera()
+        binding.cameraTextView.text = getString(R.string.no_connection)
+        binding.openImageButton.isEnabled = false
     }
 
     private fun startCamera(){
@@ -119,6 +154,8 @@ class ScanFragment : Fragment() {
         cameraController.cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
         previewView.controller = cameraController
         previewView.visibility = View.VISIBLE
+        isCameraStarted = true
+        binding.captureButton.isEnabled = true
     }
 
     private fun capture(){
@@ -151,10 +188,18 @@ class ScanFragment : Fragment() {
         binding.loadingPanel.visibility = View.VISIBLE
         val imageFile = File(requireContext().cacheDir, "tmp.jpeg")
         lifecycleScope.launch(Dispatchers.IO){
-            viewModel.fetchBillItems(imageFile)
-            view?.post {
-                Navigation.findNavController(requireView())
-                    .navigate(R.id.action_navigation_scan_to_scanConfirmationFragment)
+            val ret = viewModel.fetchBillItems(imageFile)
+            if (ret == null) {
+                view?.post {
+                    Navigation.findNavController(requireView())
+                        .navigate(R.id.action_navigation_scan_to_scanConfirmationFragment)
+                }
+            } else {
+                view?.post{
+                    binding.loadingPanel.visibility = View.GONE
+                    binding.capturedPreview.visibility = View.GONE
+                    Toast.makeText(requireContext(),ret.message,Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -165,11 +210,14 @@ class ScanFragment : Fragment() {
 
     private fun hideCamera(){
         previewView.visibility = View.GONE
+        binding.captureButton.isEnabled = false
     }
 
     private fun stopCamera(){
-        val cameraController = LifecycleCameraController(requireContext())
+        if (!this::cameraController.isInitialized || !isCameraStarted) return
         cameraController.unbind()
+        isCameraStarted = false
+        hideCamera()
     }
 
     override fun onPause() {

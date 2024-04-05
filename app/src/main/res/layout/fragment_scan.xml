@@ -11,9 +11,10 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/cameraTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/camera_permission_required"
+            android:text=""
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +64,7 @@
             app:iconPadding="0dp"
             app:iconSize="35dp"
             app:iconTint="@color/black"
-            app:layout_constraintBottom_toBottomOf="@+id/captured_preview"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:rippleColor="#a1a1a1" />
@@ -96,6 +97,8 @@
         android:background="@color/transparent_black"
         android:gravity="center"
         android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true"
         tools:ignore="UselessParent"
         tools:visibility="gone">
 

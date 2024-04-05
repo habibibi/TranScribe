@@ -90,6 +90,15 @@
                 android:selectAllOnFocus="true"
                 tools:ignore="VisualLintTextFieldSize" />
 
+            <TextView
+                android:id="@+id/no_connection_error"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_connection_error"
+                android:textColor="@color/design_default_color_error"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/login"
                 android:layout_width="match_parent"

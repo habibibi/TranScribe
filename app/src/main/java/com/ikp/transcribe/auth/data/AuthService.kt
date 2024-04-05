@@ -31,7 +31,7 @@ class AuthService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        startTokenCheck()
+        if (!this::coroutineScope.isInitialized) startTokenCheck()
         return START_STICKY
     }
 
@@ -44,6 +44,7 @@ class AuthService : Service() {
         coroutineScope = CoroutineScope(Dispatchers.Default)
         job = coroutineScope.launch {
             while (isActive) {
+                Log.d("token","checking")
                 val result = authRepository.checkToken()
                 Log.i("service", result.toString())
                 if (result is Result.Error) {

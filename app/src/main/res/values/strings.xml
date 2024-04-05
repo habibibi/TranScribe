@@ -57,4 +57,8 @@
     <string name="pengeluaran_chart">Pengeluaran: Rp.%1$s</string>
     <string name="pemasukan_kosong">Belum ada pemasukan</string>
     <string name="pengeluaran_kosong">Belum ada pengeluaran</string>
+    <string name="no_connection">Tidak ada koneksi :(</string>
+    <string name="lost_connection_alert">Koneksi terputus. Beberapa fitur dimatikan.</string>
+    <string name="reconnected_alert">Koneksi tersambung kembali.</string>
+    <string name="no_connection_error">Tidak ada koneksi internet.</string>
 </resources>

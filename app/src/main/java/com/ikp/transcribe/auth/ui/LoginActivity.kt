@@ -2,6 +2,8 @@ package com.ikp.transcribe.auth.ui
 
 import android.app.Activity
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.Network
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -27,6 +29,8 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var connectivityManager : ConnectivityManager
+    private var isConnected : Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val factory = LoginViewModelFactory(this)
@@ -51,6 +55,8 @@ class LoginActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
+        connectivityManager = getSystemService(ConnectivityManager::class.java)
+        connectivityManager.registerDefaultNetworkCallback(networkCallback)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -63,7 +69,7 @@ class LoginActivity : AppCompatActivity() {
             val loginState = it ?: return@Observer
 
             // disable login button unless both email / password is valid
-            login.isEnabled = loginState.isDataValid
+            login.isEnabled = loginState.isDataValid and isConnected
 
             if (loginState.emailError != null) {
                 email.error = getString(loginState.emailError)
@@ -134,6 +140,30 @@ class LoginActivity : AppCompatActivity() {
 
     private fun showLoginFailed(@StringRes errorString: Int) {
         Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+    }
+
+    private val networkCallback = object : ConnectivityManager.NetworkCallback() {
+        override fun onAvailable(network : Network) {
+            isConnected = true
+            runOnUiThread {
+                binding.login.isEnabled = true
+                binding.noConnectionError.visibility = View.GONE
+            }
+
+        }
+
+        override fun onLost(network : Network) {
+            isConnected = false
+            runOnUiThread {
+                binding.login.isEnabled = false
+                binding.noConnectionError.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        connectivityManager.unregisterNetworkCallback(networkCallback)
     }
 }
 
