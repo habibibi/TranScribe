@@ -53,33 +53,37 @@ Berikut adalah library yang digunakan
 
 ### Login
 
-[](url)
+![Login](screenshot/Login.jpg)
 
 ### Transaksi
 
-![Transaksi](screenshot/transaksi.jpg)
+![Daftar Transaksi](screenshot/Daftar%20Transaksi.jpg)
 
-![Tambah Transaksi](screenshot/transaksi-tambah.jpg)
+![Tambah Transaksi](screenshot/Tambah%20Transaksi.jpg)
 
-![Edit Transaksi](screenshot/transaksi-edit.jpg)
+![Edit Transaksi](screenshot/Edit%20Transaksi.jpg)
 
 ### Graf
 
-![Graf](screenshot/graph.jpg)
+![Graph](screenshot/Graph.jpg)
 
-![Graf Landscape](screenshot/graph-landscape.jpg)
+![Landscape Graph](screenshot/Landscape%20Graph.jpg)
 
 ### Pengaturan
 
-![Pengaturan](screenshot/setting.jpg)
+![Setting](screenshot/Setting.jpg)
+
+### Scan
+
+![Scan](screenshot/Scan.jpg)
 
 ## Pembagian kerja anggota kelompok
 
 | NIM       | Nama                          | Pekerjaan           |
 |-----------|-------------------------------|---------------------|
-| 13521118  | Ahmad Ghulam Ilham        |  Login, Logout, JWT Service, Graph|
+| 13521118  | Ahmad Ghulam Ilham        |  Login, Logout, Background Service, Graph, Styling Login|
 | 13521159  | Sulthan Dzaky Alfaro  | CRUD Transaksi, Intent Lokasi, Broadcast Receiver, Simpan Transaksi,Intent Gmail |
-| 13521169  | Muhammad Habibi Husni  | Header-Navbar,Daftar Transaksi,Scanner, Network Sensing|
+| 13521169  | Muhammad Habibi Husni  | Header dan Navbar,  Transaction List, Scanner, Network Sensing|
 
 ## Jumlah jam persiapan dan pengerjaan untuk masing-masing anggota
 
